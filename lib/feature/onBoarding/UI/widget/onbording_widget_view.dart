@@ -1,3 +1,6 @@
+import 'package:carrent/core/helpers/spacing.dart';
+import 'package:carrent/core/theming/font_weight_helper.dart';
+import 'package:carrent/core/utils/app_text_style.dart';
 import 'package:carrent/feature/onBoarding/UI/widget/custom_smooth_page_indecator.dart';
 import 'package:carrent/feature/onBoarding/data/onbording_model.dart';
 import 'package:flutter/material.dart';
@@ -24,12 +27,12 @@ class OnbordingWidgetView extends StatelessWidget {
       alignment: Alignment.center,
       children: [
         Positioned(
-          top: 60.h,
-          right: 17.w,
+          top: onboarding.topPos ?? 60.h,
+          right: onboarding.rightPos ?? 5.w,
 
           child: Image.asset(
             onboarding.imagePath,
-            height: 250.h,
+            height: onboarding.size ?? 250.h,
             fit: BoxFit.contain,
           ),
         ),
@@ -45,12 +48,7 @@ class OnbordingWidgetView extends StatelessWidget {
                   onboarding.title,
                   maxLines: 2,
                   textAlign: TextAlign.start,
-                  style: TextStyle(
-                    fontSize: 30.sp,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                    height: 1.4,
-                  ),
+                  style: AppTextStyle.font30WhiteBold,
                 ),
               ),
               SizedBox(height: 12.h),
@@ -67,6 +65,7 @@ class OnbordingWidgetView extends StatelessWidget {
                   ),
                 ),
               ),
+              verticalSpace(12.h),
               CustomSmoothPageIndicator(controller: pageController),
             ],
           ),

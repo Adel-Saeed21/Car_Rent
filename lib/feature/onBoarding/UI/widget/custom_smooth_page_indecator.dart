@@ -14,7 +14,7 @@ class CustomSmoothPageIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     return SmoothPageIndicator(
       controller: _controller,
-      count: 4,
+      count: 3,
       effect: JumpingDotEffect(
         jumpScale: 1.5,
         dotWidth: 10,

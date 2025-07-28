@@ -1,5 +1,6 @@
 import 'package:carrent/core/helpers/spacing.dart';
 import 'package:carrent/core/utils/app_colors.dart';
+import 'package:carrent/core/widgets/app_button.dart';
 import 'package:carrent/feature/onBoarding/UI/widget/onbording_widget_view.dart';
 import 'package:carrent/feature/onBoarding/data/onbording_model.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       backgroundColor: AppColors.lightBlack,
       body: Column(
         children: [
-          verticalSpace(30.h),
+          verticalSpace(110.h),
           Expanded(
             child: PageView.builder(
               controller: pageController,
@@ -38,6 +39,22 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               ),
             ),
           ),
+
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 30.w),
+
+            child: AppButton(
+              buttonHeight: 35.h,
+              backgroundColor: AppColors.lightBlue,
+
+              textStyle: TextStyle(color: Colors.white),
+              buttonText: "Get Start",
+
+              onPressed: () {},
+            ),
+          ),
+
+          verticalSpace(40.h),
         ],
       ),
     );
