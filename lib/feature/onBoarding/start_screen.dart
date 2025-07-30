@@ -1,4 +1,6 @@
+import 'package:carrent/core/helpers/extensions.dart';
 import 'package:carrent/core/helpers/spacing.dart';
+import 'package:carrent/core/routing/routes.dart';
 import 'package:carrent/core/utils/app_assets.dart';
 import 'package:carrent/core/utils/app_colors.dart';
 import 'package:carrent/core/widgets/app_button.dart';
@@ -37,7 +39,9 @@ class StartScreen extends StatelessWidget {
                         buttonHeight: 40.h,
 
                         textStyle: TextStyle(color: Colors.white, fontSize: 18),
-                        onPressed: () {},
+                        onPressed: () {
+                          context.pushNamed(Routes.signUpScreen);
+                        },
                         backgroundColor: AppColors.lightBlue,
                         radius: 25,
                         buttonWidth: 280.w,
