@@ -1,0 +1,67 @@
+import 'package:carrent/core/helpers/spacing.dart';
+import 'package:carrent/core/utils/app_assets.dart';
+import 'package:carrent/core/utils/app_colors.dart';
+import 'package:carrent/core/widgets/app_button.dart';
+import 'package:carrent/feature/onBoarding/UI/widget/car_logo.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+class StartScreen extends StatelessWidget {
+  const StartScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Stack(
+        children: [
+          // Background image
+          Positioned.fill(
+            child: Image.asset(
+              Assets.assetsImagesOnboardingBackground,
+              fit: BoxFit.cover,
+            ),
+          ),
+
+          Center(
+            child: Column(
+              children: [
+                verticalSpace(450.h),
+                CarvOnLogo(),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  child: Column(
+                    children: [
+                      verticalSpace(50.h),
+                      AppButton(
+                        buttonText: "Sign up",
+                        buttonHeight: 40.h,
+
+                        textStyle: TextStyle(color: Colors.white, fontSize: 18),
+                        onPressed: () {},
+                        backgroundColor: AppColors.lightBlue,
+                        radius: 25,
+                        buttonWidth: 280.w,
+                      ),
+                      verticalSpace(15.h),
+                      AppButton(
+                        buttonText: "Log In",
+                        buttonHeight: 40.h,
+
+                        textStyle: TextStyle(color: Colors.grey, fontSize: 18),
+                        onPressed: () {},
+                        backgroundColor: Colors.transparent,
+                        borderSide: const BorderSide(color: Colors.grey),
+                        radius: 25,
+                        buttonWidth: 280.w,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

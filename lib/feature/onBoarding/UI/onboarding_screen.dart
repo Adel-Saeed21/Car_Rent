@@ -1,4 +1,6 @@
+import 'package:carrent/core/helpers/extensions.dart';
 import 'package:carrent/core/helpers/spacing.dart';
+import 'package:carrent/core/routing/routes.dart';
 import 'package:carrent/core/utils/app_colors.dart';
 import 'package:carrent/core/widgets/app_button.dart';
 import 'package:carrent/feature/onBoarding/UI/widget/onbording_widget_view.dart';
@@ -50,7 +52,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               textStyle: TextStyle(color: Colors.white),
               buttonText: "Get Start",
 
-              onPressed: () {},
+              onPressed: () {
+                context.pushNamed(Routes.startScreen);
+              },
             ),
           ),
 

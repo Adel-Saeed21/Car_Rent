@@ -1,5 +1,6 @@
 import 'package:carrent/core/routing/routes.dart';
 import 'package:carrent/feature/onBoarding/UI/onboarding_screen.dart';
+import 'package:carrent/feature/onBoarding/start_screen.dart';
 import 'package:flutter/material.dart';
 
 class AppRoute {
@@ -7,11 +8,11 @@ class AppRoute {
     switch (settings.name) {
       case Routes.onBoardingScreen:
         return MaterialPageRoute(builder: (_) => OnboardingScreen());
-    default:
+
+      case Routes.startScreen:
+        return MaterialPageRoute(builder: (_) => StartScreen());
+      default:
         return MaterialPageRoute(builder: (_) => const Scaffold());
     }
   }
-
-
-
 }

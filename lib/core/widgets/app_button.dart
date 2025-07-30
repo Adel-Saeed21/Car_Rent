@@ -13,6 +13,8 @@ class AppButton extends StatelessWidget {
       buttonWidth,
       buttonHeight;
 
+  final BorderSide? borderSide;
+
   const AppButton({
     super.key,
     required this.buttonText,
@@ -24,6 +26,7 @@ class AppButton extends StatelessWidget {
     this.verticalPadding,
     this.buttonWidth,
     this.buttonHeight,
+    this.borderSide, 
   });
 
   @override
@@ -33,6 +36,7 @@ class AppButton extends StatelessWidget {
         shape: MaterialStatePropertyAll<RoundedRectangleBorder>(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(radius ?? 16),
+            side: borderSide ?? BorderSide.none, // ✅ هنا بيتطبق البوردر
           ),
         ),
         backgroundColor: MaterialStatePropertyAll(

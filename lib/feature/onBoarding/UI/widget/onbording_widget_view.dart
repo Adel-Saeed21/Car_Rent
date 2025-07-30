@@ -1,5 +1,4 @@
 import 'package:carrent/core/helpers/spacing.dart';
-import 'package:carrent/core/theming/font_weight_helper.dart';
 import 'package:carrent/core/utils/app_text_style.dart';
 import 'package:carrent/feature/onBoarding/UI/widget/custom_smooth_page_indecator.dart';
 import 'package:carrent/feature/onBoarding/data/onbording_model.dart';
