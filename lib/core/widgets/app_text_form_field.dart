@@ -1,10 +1,9 @@
-
 import 'package:carrent/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppTextFormField extends StatelessWidget {
-  final String hintText;
+  final String? hintText;
   final Widget? suffixIcon;
   final double radius;
   final Color focusBorderColor;
@@ -15,9 +14,11 @@ class AppTextFormField extends StatelessWidget {
   final EdgeInsetsGeometry? contentPadding;
   final TextEditingController? controller;
   final String? Function(String?)? validator;
+  final Widget? label;
+  final TextStyle? labelStyle;
   const AppTextFormField({
     super.key,
-    required this.hintText,
+    this.hintText,
     this.suffixIcon,
     required this.radius,
     required this.focusBorderColor,
@@ -28,6 +29,8 @@ class AppTextFormField extends StatelessWidget {
     this.backgroundColor,
     this.controller,
     this.validator,
+    this.label,
+    this.labelStyle,
   });
 
   @override
@@ -50,7 +53,10 @@ class AppTextFormField extends StatelessWidget {
         // hintStyle: TextStyles.font14LightGreyRegular,
         hintText: hintText,
         suffixIcon: suffixIcon,
+        label: label,
+        labelStyle: labelStyle,
       ),
+      cursorColor: AppColors.lightBlue,
 
       obscureText: isSecure ?? false,
       style: textStyle,
