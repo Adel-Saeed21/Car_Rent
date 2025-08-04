@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppButton extends StatelessWidget {
-  final String buttonText;
+final Widget child;
   final void Function()? onPressed;
   final Color? backgroundColor;
   final TextStyle? textStyle;
@@ -17,7 +17,7 @@ class AppButton extends StatelessWidget {
 
   const AppButton({
     super.key,
-    required this.buttonText,
+    required this.child,
     required this.onPressed,
     this.backgroundColor,
     this.textStyle,
@@ -53,7 +53,7 @@ class AppButton extends StatelessWidget {
         ),
       ),
       onPressed: onPressed,
-      child: Text(buttonText, style: textStyle),
+      child: child,
     );
   }
 }

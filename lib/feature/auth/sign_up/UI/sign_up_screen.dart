@@ -2,7 +2,6 @@ import 'package:carrent/core/helpers/spacing.dart';
 import 'package:carrent/core/theming/font_weight_helper.dart';
 import 'package:carrent/core/utils/app_colors.dart';
 import 'package:carrent/core/utils/app_text_style.dart';
-import 'package:carrent/core/widgets/app_button.dart';
 import 'package:carrent/feature/auth/sign_up/UI/widgets/already_have_an_account.dart';
 import 'package:carrent/feature/auth/sign_up/UI/widgets/custom_app_bar.dart';
 import 'package:carrent/feature/auth/sign_up/UI/widgets/sign_up_form.dart';
@@ -16,7 +15,7 @@ class SignUpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.lightBlack,
-      appBar: CustomAppBar(),
+      appBar: const CustomAppBar(),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.w),
         child: SingleChildScrollView(
@@ -40,19 +39,10 @@ class SignUpScreen extends StatelessWidget {
                   fontSize: 14.sp,
                 ),
               ),
-              SignUpForm(),
-              verticalSpace(12.h),
-              AppButton(
-                buttonHeight: 40.h,
-
-                buttonText: "Create Account",
-                textStyle: TextStyle(color: Colors.white),
-                onPressed: () {
-                  //validateThenDoSignup(context);
-                },
-              ),
+              const SignUpForm(),
+            
               verticalSpace(10.h),
-              AlreadyHaveAccountText(),
+              const AlreadyHaveAccountText(),
             ],
           ),
         ),

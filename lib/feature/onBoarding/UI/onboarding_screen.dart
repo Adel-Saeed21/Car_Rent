@@ -49,9 +49,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               buttonHeight: 35.h,
               backgroundColor: AppColors.lightBlue,
 
-              textStyle: TextStyle(color: Colors.white),
-              buttonText: "Get Start",
-
+              textStyle: const TextStyle(color: Colors.white),
+              child: const Text(
+                "Get Start",
+                style: TextStyle(color: Colors.white),
+              ),
               onPressed: () {
                 context.pushNamed(Routes.startScreen);
               },

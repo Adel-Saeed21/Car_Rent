@@ -1,13 +1,20 @@
+import 'package:carrent/core/di/di.dart';
+import 'package:carrent/core/functions/show_toast.dart';
 import 'package:carrent/core/helpers/app_regex.dart';
+import 'package:carrent/core/helpers/extensions.dart';
 import 'package:carrent/core/helpers/spacing.dart';
+import 'package:carrent/core/routing/routes.dart';
 import 'package:carrent/core/utils/app_colors.dart';
 import 'package:carrent/core/utils/app_text_style.dart';
+import 'package:carrent/core/widgets/app_button.dart';
 import 'package:carrent/core/widgets/app_text_form_field.dart';
 import 'package:carrent/feature/auth/sign_up/UI/widgets/password_validation.dart';
 import 'package:carrent/feature/auth/sign_up/logic/sign_up_cubit.dart';
+import 'package:carrent/feature/auth/sign_up/logic/signup_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class SignUpForm extends StatefulWidget {
   const SignUpForm({super.key});
@@ -54,10 +61,10 @@ class _SignUpFormState extends State<SignUpForm> {
         children: [
           verticalSpace(10.h),
           AppTextFormField(
-            label: Text("name"),
+            label: const Text("name"),
             labelStyle: AppTextStyle.font20LightBlueRgular,
 
-            textStyle: TextStyle(color: Colors.white),
+            textStyle: const TextStyle(color: Colors.white),
             radius: 16,
             focusBorderColor: AppColors.lightBlue,
             enableBorderColor: Colors.grey,
@@ -74,9 +81,9 @@ class _SignUpFormState extends State<SignUpForm> {
             radius: 14,
             focusBorderColor: AppColors.lightBlue,
             enableBorderColor: Colors.grey,
-            label: Text("Email"),
+            label: const Text("Email"),
             labelStyle: AppTextStyle.font20LightBlueRgular,
-            textStyle: TextStyle(color: Colors.white),
+            textStyle: const TextStyle(color: Colors.white),
             validator: (value) {
               if (value == null ||
                   value.isEmpty ||
@@ -92,9 +99,9 @@ class _SignUpFormState extends State<SignUpForm> {
             radius: 14,
             focusBorderColor: AppColors.lightBlue,
             enableBorderColor: Colors.grey,
-            label: Text("phone"),
+            label: const Text("phone"),
             labelStyle: AppTextStyle.font20LightBlueRgular,
-            textStyle: TextStyle(color: Colors.white),
+            textStyle: const TextStyle(color: Colors.white),
             validator: (value) {
               if (value == null ||
                   value.isEmpty ||
@@ -110,9 +117,9 @@ class _SignUpFormState extends State<SignUpForm> {
             radius: 14,
             focusBorderColor: AppColors.lightBlue,
             enableBorderColor: Colors.grey,
-            label: Text("Password"),
+            label: const Text("Password"),
             labelStyle: AppTextStyle.font20LightBlueRgular,
-            textStyle: TextStyle(color: Colors.white),
+            textStyle: const TextStyle(color: Colors.white),
 
             controller: context.read<SignUpCubit>().passwordController,
             isSecure: isPasswordObscureText,
@@ -138,9 +145,9 @@ class _SignUpFormState extends State<SignUpForm> {
             radius: 14,
             focusBorderColor: AppColors.lightBlue,
             enableBorderColor: Colors.grey,
-            label: Text("Password Confirm"),
+            label: const Text("Password Confirm"),
             labelStyle: AppTextStyle.font20LightBlueRgular,
-            textStyle: TextStyle(color: Colors.white),
+            textStyle: const TextStyle(color: Colors.white),
 
             controller: context
                 .read<SignUpCubit>()
@@ -167,12 +174,52 @@ class _SignUpFormState extends State<SignUpForm> {
             },
           ),
           verticalSpace(12.h),
+
           PasswordValidation(
             hasLowerCase: hasLowercase,
             hasUpperCase: hasUppercase,
             hasSpecialChar: hasSpecialCharacters,
             hasNumber: hasNumber,
             hasMinLength: hasMinLength,
+          ),
+          verticalSpace(12.h),
+
+          BlocListener<SignUpCubit, SignupState>(
+            listener: (context, state) {
+              if (state is SignupSuccess) {
+                context.pushReplacmentNamed(Routes.logInScreen);
+              } else {
+                if (state is SignupError) {
+                  showToast(state.errorMessage);
+                }
+              }
+            },
+            child: AppButton(
+              buttonHeight: 40.h,
+              textStyle: const TextStyle(color: Colors.white),
+              onPressed: State is SignupLoading
+                  ? null
+                  : () {
+                      if (getit<SignUpCubit>().formKey.currentState!
+                          .validate()) {
+                        getit<SignUpCubit>().signUp();
+                      }
+                    },
+
+              child: State is SignupLoading
+                  ? const SizedBox(
+                      height: 24,
+                      width: 24,
+                      child: SpinKitFadingCircle(
+                        color: Colors.white,
+                        size: 24.0,
+                      ),
+                    )
+                  : const Text(
+                      "Create Account",
+                      style: TextStyle(color: Colors.white),
+                    ),
+            ),
           ),
         ],
       ),
