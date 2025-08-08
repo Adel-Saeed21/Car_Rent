@@ -6,7 +6,8 @@ class SocialButton extends StatelessWidget {
   final Widget icon;
   final VoidCallback onPressed;
 
-  const SocialButton({super.key, 
+  const SocialButton({
+    super.key,
     required this.text,
     required this.icon,
     required this.onPressed,
@@ -25,10 +26,8 @@ class SocialButton extends StatelessWidget {
         style: OutlinedButton.styleFrom(
           padding: const EdgeInsets.symmetric(vertical: 14),
           side: BorderSide(color: AppColors.lightBlue),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
-          backgroundColor: AppColors.darkGrey, 
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+          backgroundColor: AppColors.darkGrey,
         ),
         onPressed: onPressed,
       ),
