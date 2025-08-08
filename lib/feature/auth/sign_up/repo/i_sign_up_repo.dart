@@ -1,7 +1,7 @@
 import 'package:carrent/feature/auth/sign_up/data/user_data.dart';
 
 abstract class ISignUpRepo {
-  Future<void> signUp({
+  Future<UserData> signUp({
     required String email,
     required String password,
     required String name,

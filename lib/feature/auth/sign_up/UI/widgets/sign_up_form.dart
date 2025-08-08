@@ -1,4 +1,3 @@
-import 'package:carrent/core/di/di.dart';
 import 'package:carrent/core/functions/show_toast.dart';
 import 'package:carrent/core/helpers/app_regex.dart';
 import 'package:carrent/core/helpers/extensions.dart';
@@ -184,42 +183,45 @@ class _SignUpFormState extends State<SignUpForm> {
           ),
           verticalSpace(12.h),
 
-          BlocListener<SignUpCubit, SignupState>(
+          BlocConsumer<SignUpCubit, SignupState>(
             listener: (context, state) {
               if (state is SignupSuccess) {
                 context.pushReplacmentNamed(Routes.logInScreen);
-              } else {
-                if (state is SignupError) {
-                  showToast(state.errorMessage);
-                }
+              } else if (state is SignupError) {
+                showToast(state.errorMessage);
               }
             },
-            child: AppButton(
-              buttonHeight: 40.h,
-              textStyle: const TextStyle(color: Colors.white),
-              onPressed: State is SignupLoading
-                  ? null
-                  : () {
-                      if (getit<SignUpCubit>().formKey.currentState!
-                          .validate()) {
-                        getit<SignUpCubit>().signUp();
-                      }
-                    },
-
-              child: State is SignupLoading
-                  ? const SizedBox(
-                      height: 24,
-                      width: 24,
-                      child: SpinKitFadingCircle(
-                        color: Colors.white,
-                        size: 24.0,
+            builder: (context, state) {
+              return AppButton(
+                buttonHeight: 40.h,
+                textStyle: const TextStyle(color: Colors.white),
+                onPressed: state is SignupLoading
+                    ? null
+                    : () {
+                        if (context
+                                .read<SignUpCubit>()
+                                .formKey
+                                .currentState
+                                ?.validate() ??
+                            false) {
+                          context.read<SignUpCubit>().signUp();
+                        }
+                      },
+                child: state is SignupLoading
+                    ? const SizedBox(
+                        height: 24,
+                        width: 24,
+                        child: SpinKitFadingCircle(
+                          color: Colors.white,
+                          size: 24.0,
+                        ),
+                      )
+                    : const Text(
+                        "Create Account",
+                        style: TextStyle(color: Colors.white),
                       ),
-                    )
-                  : const Text(
-                      "Create Account",
-                      style: TextStyle(color: Colors.white),
-                    ),
-            ),
+              );
+            },
           ),
         ],
       ),

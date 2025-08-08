@@ -25,7 +25,15 @@ class SignUpCubit extends Cubit<SignupState> {
   Future<void> signUp() async {
     emit(const SignupLoading());
     try {
-      repo.signUp(email:emailController.text, password: passwordController.text, name: nameController.text, phone: phoneController.text);
+      final user = await repo.signUp(
+        email: emailController.text,
+        password: passwordController.text,
+        name: nameController.text,
+        phone: phoneController.text,
+      );
+        debugPrint("✅ SignUp Success: ${user.email}");
+
+      emit(SignupSuccess(user));
     } catch (e) {
       emit(SignupError(errorMessage: e.toString()));
     }

@@ -28,7 +28,7 @@ class StartScreen extends StatelessWidget {
             child: Column(
               children: [
                 verticalSpace(450.h),
-               const CarvOnLogo(),
+                const CarvOnLogo(),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
                   child: Column(
@@ -37,27 +37,38 @@ class StartScreen extends StatelessWidget {
                       AppButton(
                         buttonHeight: 40.h,
 
-                        textStyle:const TextStyle(color: Colors.white, fontSize: 18),
+                        textStyle: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                        ),
                         onPressed: () {
                           context.pushNamed(Routes.signUpScreen);
                         },
                         backgroundColor: AppColors.lightBlue,
                         radius: 25,
                         buttonWidth: 280.w,
-                        child: const  Text("Sign up",style: TextStyle(color: Colors.white, fontSize: 18),),
+                        child: const Text(
+                          "Sign up",
+                          style: TextStyle(color: Colors.white, fontSize: 18),
+                        ),
                       ),
                       verticalSpace(15.h),
                       AppButton(
                         buttonHeight: 40.h,
 
-                        textStyle:const TextStyle(color: Colors.grey, fontSize: 18),
+                        textStyle: const TextStyle(
+                          color: Colors.grey,
+                          fontSize: 18,
+                        ),
                         onPressed: () {},
                         backgroundColor: Colors.transparent,
                         borderSide: const BorderSide(color: Colors.grey),
                         radius: 25,
                         buttonWidth: 280.w,
-                                                child: const  Text("Sign up",style: TextStyle(color: Colors.white, fontSize: 18),),
-
+                        child: const Text(
+                          "Log In",
+                          style: TextStyle(color: Colors.white, fontSize: 18),
+                        ),
                       ),
                     ],
                   ),
