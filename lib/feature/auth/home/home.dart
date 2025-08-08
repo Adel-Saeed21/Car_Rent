@@ -5,6 +5,11 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold();
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("test", style: TextStyle(color: Colors.black12)),
+      ),
+      body: Center(child: Text("HOme screen")),
+    );
   }
 }

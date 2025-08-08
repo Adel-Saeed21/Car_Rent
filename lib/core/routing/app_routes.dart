@@ -1,5 +1,6 @@
 import 'package:carrent/core/di/di.dart';
 import 'package:carrent/core/routing/routes.dart';
+import 'package:carrent/feature/auth/home/home.dart';
 import 'package:carrent/feature/auth/log_in/UI/log_in_screen.dart';
 import 'package:carrent/feature/auth/log_in/logic/log_in_cubit.dart';
 import 'package:carrent/feature/auth/sign_up/UI/sign_up_screen.dart';
@@ -24,6 +25,9 @@ class AppRoute {
             child: const SignUpScreen(),
           ),
         );
+
+      case Routes.homeScreen:
+        return MaterialPageRoute(builder: (_) => const Home());
 
       case Routes.logInScreen:
         return MaterialPageRoute(
