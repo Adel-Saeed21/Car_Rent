@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const CustomAppBar({super.key});
+  const CustomAppBar({super.key, required this.title});
 
   @override
-  Size get preferredSize =>const  Size.fromHeight(kToolbarHeight);
-
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+  final String title;
   @override
   Widget build(BuildContext context) {
     return AppBar(
@@ -21,7 +21,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         },
       ),
       title: Text(
-        'Sign Up',
+        title,
         style: TextStyle(
           color: AppColors.lightBlue,
           fontSize: 20.sp,

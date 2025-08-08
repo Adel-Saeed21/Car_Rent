@@ -60,7 +60,9 @@ class StartScreen extends StatelessWidget {
                           color: Colors.grey,
                           fontSize: 18,
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          context.pushNamed(Routes.logInScreen);
+                        },
                         backgroundColor: Colors.transparent,
                         borderSide: const BorderSide(color: Colors.grey),
                         radius: 25,

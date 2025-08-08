@@ -15,7 +15,7 @@ class SignUpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.lightBlack,
-      appBar: const CustomAppBar(),
+      appBar: const CustomAppBar(title: "Sign up",),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.w),
         child: SingleChildScrollView(
