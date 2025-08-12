@@ -25,57 +25,52 @@ class StartScreen extends StatelessWidget {
           ),
 
           Center(
-            child: Column(
-              children: [
-                verticalSpace(450.h),
-                const CarvOnLogo(),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: Column(
-                    children: [
-                      verticalSpace(50.h),
-                      AppButton(
-                        buttonHeight: 40.h,
+            child: SingleChildScrollView( 
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.w),  
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    verticalSpace( 80.h), 
+                    const CarvOnLogo(),
+                     verticalSpace( 50.h), 
 
-                        textStyle: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                        ),
-                        onPressed: () {
-                          context.pushNamed(Routes.signUpScreen);
-                        },
-                        backgroundColor: AppColors.lightBlue,
-                        radius: 25,
-                        buttonWidth: 280.w,
-                        child: const Text(
-                          "Sign up",
-                          style: TextStyle(color: Colors.white, fontSize: 18),
-                        ),
+                    AppButton(
+                      buttonHeight: 40.h,
+                      buttonWidth: 280.w,
+                      textStyle: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18.sp,
                       ),
-                      verticalSpace(15.h),
-                      AppButton(
-                        buttonHeight: 40.h,
+                      onPressed: () {
+                        context.pushNamed(Routes.signUpScreen);
+                      },
+                      backgroundColor: AppColors.lightBlue,
+                      radius: 25.r,
+                      child: const Text("Sign up"),
+                    ),
 
-                        textStyle: const TextStyle(
-                          color: Colors.grey,
-                          fontSize: 18,
-                        ),
-                        onPressed: () {
-                          context.pushNamed(Routes.logInScreen);
-                        },
-                        backgroundColor: Colors.transparent,
-                        borderSide: const BorderSide(color: Colors.grey),
-                        radius: 25,
-                        buttonWidth: 280.w,
-                        child: const Text(
-                          "Log In",
-                          style: TextStyle(color: Colors.white, fontSize: 18),
-                        ),
+                    SizedBox(height: 15.h),
+
+                    AppButton(
+                      buttonHeight: 40.h,
+                      buttonWidth: 280.w,
+                      textStyle: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 18.sp,
                       ),
-                    ],
-                  ),
+                      onPressed: () {
+                        context.pushNamed(Routes.logInScreen);
+                      },
+                      backgroundColor: Colors.transparent,
+                      borderSide: const BorderSide(color: Colors.grey),
+                      radius: 25.r,
+                      child: const Text("Log In"),
+                    ),
+                    verticalSpace( 80.h),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
         ],
