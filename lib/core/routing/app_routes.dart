@@ -5,6 +5,7 @@ import 'package:carrent/feature/auth/log_in/UI/log_in_screen.dart';
 import 'package:carrent/feature/auth/log_in/logic/log_in_cubit.dart';
 import 'package:carrent/feature/auth/sign_up/UI/sign_up_screen.dart';
 import 'package:carrent/feature/auth/sign_up/logic/sign_up_cubit.dart';
+import 'package:carrent/feature/navigation_screen.dart/navigation_screen.dart';
 import 'package:carrent/feature/onBoarding/UI/onboarding_screen.dart';
 import 'package:carrent/feature/onBoarding/start_screen.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +29,9 @@ class AppRoute {
 
       case Routes.homeScreen:
         return MaterialPageRoute(builder: (_) => const Home());
+
+      case Routes.navigationScreen:
+        return MaterialPageRoute(builder: (_) =>const NavigationScreen());
 
       case Routes.logInScreen:
         return MaterialPageRoute(

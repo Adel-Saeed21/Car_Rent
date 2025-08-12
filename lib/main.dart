@@ -21,8 +21,8 @@ void main() async {
   runApp(
     CarRentApp(
       appRouter: AppRoute(),
-      initialRoute: loggedIn ? Routes.homeScreen : Routes.onBoardingScreen,
-     
+      // initialRoute: loggedIn ? Routes.homeScreen : Routes.onBoardingScreen,
+      initialRoute: Routes.navigationScreen,
     ),
   );
 }
