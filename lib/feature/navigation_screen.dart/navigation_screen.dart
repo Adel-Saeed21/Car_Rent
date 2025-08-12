@@ -1,5 +1,5 @@
 import 'package:carrent/core/utils/app_colors.dart';
-import 'package:carrent/feature/auth/home/home.dart';
+import 'package:carrent/feature/home/UI/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -24,10 +24,11 @@ class _NavigationScreenState extends State<NavigationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.lightBlack,
       body: screens[_selectedIndex],
       bottomNavigationBar: Container(
         width: MediaQuery.of(context).size.width * 0.6,
-        margin: EdgeInsets.symmetric(horizontal: 80.w, vertical: 20.h),
+        margin: EdgeInsets.only(left: 80.w, right: 80.w, bottom: 20.h),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(25),
           child: Container(
@@ -81,7 +82,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
                   BoxShadow(
                     color: AppColors.lightBlue.withAlpha(1),
                     blurRadius: 8,
-                    offset:const Offset(0, 3),
+                    offset: const Offset(0, 3),
                   ),
                 ]
               : [],
@@ -100,8 +101,11 @@ class FavoritesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Favorites'), backgroundColor: Colors.red),
-      body:const Center(
+      appBar: AppBar(
+        title: const Text('Favorites'),
+        backgroundColor: Colors.red,
+      ),
+      body: const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -118,7 +122,10 @@ class MessagesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title:const Text('Messages'), backgroundColor: Colors.green),
+      appBar: AppBar(
+        title: const Text('Messages'),
+        backgroundColor: Colors.green,
+      ),
       body: const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -136,8 +143,8 @@ class MenuScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title:const Text('Menu'), backgroundColor: Colors.orange),
-      body:const Center(
+      appBar: AppBar(title: const Text('Menu'), backgroundColor: Colors.orange),
+      body: const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -149,5 +156,3 @@ class MenuScreen extends StatelessWidget {
     );
   }
 }
-
-
