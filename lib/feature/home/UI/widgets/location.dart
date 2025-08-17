@@ -1,11 +1,13 @@
 import 'package:carrent/core/helpers/spacing.dart';
 import 'package:carrent/core/theming/font_weight_helper.dart';
+import 'package:carrent/feature/auth/sign_up/data/user_data.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:hive/hive.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class LocationWidget extends StatefulWidget {
@@ -19,11 +21,20 @@ class LocationWidget extends StatefulWidget {
 class _LocationWidgetState extends State<LocationWidget> {
   String currentCity = "Loading...";
   bool isLoading = true;
+  UserData? userData;
 
   @override
   void initState() {
     super.initState();
     getCurrentLocation();
+    loadUserData();
+  }
+
+  Future<void> loadUserData() async {
+    var box = await Hive.openBox<UserData>('UserDataBox');
+    setState(() {
+      userData = box.get('currentUser');
+    });
   }
 
   Future<void> getCurrentLocation() async {
@@ -31,7 +42,6 @@ class _LocationWidgetState extends State<LocationWidget> {
       PermissionStatus permission = await Permission.location.request();
 
       if (permission.isGranted) {
-        // التحقق من تفعيل خدمات الموقع
         bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
         if (!serviceEnabled) {
           setState(() {
@@ -83,7 +93,7 @@ class _LocationWidgetState extends State<LocationWidget> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Hi, Adool",
+         "Hi, ${userData?.name ?? ""}",
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeightHelper.regular,
