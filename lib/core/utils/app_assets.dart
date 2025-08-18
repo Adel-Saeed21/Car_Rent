@@ -2,6 +2,22 @@
 class Assets {
   Assets._();
 
+  /// Assets for assetsImagesAdool
+  /// assets/images/adool.jpeg
+  static const String assetsImagesAdool = "assets/images/adool.jpeg";
+
+  /// Assets for assetsImagesAudi
+  /// assets/images/Audi.png
+  static const String assetsImagesAudiLOGO = "assets/images/Audi.png";
+
+  /// Assets for assetsImagesBMW.
+  /// assets/images/BMW.png
+  static const String assetsImagesBMWLogo = "assets/images/BMWLogo.png";
+
+  /// Assets for assetsImagesBentleyLogo
+  /// assets/images/BentleyLogo.png
+  static const String assetsImagesBentleyLogo = "assets/images/BentleyLogo.png";
+
   /// Assets for assetsImagesCar
   /// assets/images/car.png
   static const String assetsImagesCar = "assets/images/car.png";
@@ -10,6 +26,15 @@ class Assets {
   /// assets/images/car_onboarding.png
   static const String assetsImagesCarOnboarding =
       "assets/images/car_onboarding.png";
+
+  /// Assets for assetsImagesKIALOGO
+  /// assets/images/KIALOGO.png
+  static const String assetsImagesKIALOGO = "assets/images/KIALOGO.png";
+
+  /// Assets for assetsImagesMercedesLogo
+  /// assets/images/Mercedes-Logo.png
+  static const String assetsImagesMercedesLogo =
+      "assets/images/Mercedes-Logo.png";
 
   /// Assets for assetsImagesOnboardingBackground
   /// assets/images/onboarding_background.jpeg
