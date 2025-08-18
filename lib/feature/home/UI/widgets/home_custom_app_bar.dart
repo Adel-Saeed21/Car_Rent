@@ -12,12 +12,8 @@ class HomeCustomAppBar extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     final isSmallScreen = screenWidth < 360;
 
-    return Container(
+    return SizedBox(
       width: double.infinity,
-      padding: EdgeInsets.symmetric(
-        horizontal: isSmallScreen ? 12.w : 16.w,
-        vertical: 8.h,
-      ),
       child: Row(
         children: [
           SizedBox(

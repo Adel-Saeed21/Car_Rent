@@ -31,7 +31,7 @@ class AppRoute {
         return MaterialPageRoute(builder: (_) => const Home());
 
       case Routes.navigationScreen:
-        return MaterialPageRoute(builder: (_) =>const NavigationScreen());
+        return MaterialPageRoute(builder: (_) => const NavigationScreen());
 
       case Routes.logInScreen:
         return MaterialPageRoute(

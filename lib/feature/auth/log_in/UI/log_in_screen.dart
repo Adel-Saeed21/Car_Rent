@@ -1,4 +1,3 @@
-
 import 'package:carrent/core/helpers/extensions.dart';
 import 'package:carrent/core/helpers/spacing.dart';
 import 'package:carrent/core/routing/routes.dart';

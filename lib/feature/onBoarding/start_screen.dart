@@ -25,15 +25,15 @@ class StartScreen extends StatelessWidget {
           ),
 
           Center(
-            child: SingleChildScrollView( 
+            child: SingleChildScrollView(
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.w),  
+                padding: EdgeInsets.symmetric(horizontal: 20.w),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    verticalSpace( 80.h), 
+                    verticalSpace(80.h),
                     const CarvOnLogo(),
-                     verticalSpace( 50.h), 
+                    verticalSpace(50.h),
 
                     AppButton(
                       buttonHeight: 40.h,
@@ -55,10 +55,7 @@ class StartScreen extends StatelessWidget {
                     AppButton(
                       buttonHeight: 40.h,
                       buttonWidth: 280.w,
-                      textStyle: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 18.sp,
-                      ),
+                      textStyle: TextStyle(color: Colors.grey, fontSize: 18.sp),
                       onPressed: () {
                         context.pushNamed(Routes.logInScreen);
                       },
@@ -67,7 +64,7 @@ class StartScreen extends StatelessWidget {
                       radius: 25.r,
                       child: const Text("Log In"),
                     ),
-                    verticalSpace( 80.h),
+                    verticalSpace(80.h),
                   ],
                 ),
               ),

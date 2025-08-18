@@ -24,7 +24,6 @@ abstract class SignupState<T> {
   });
 }
 
-
 // ---------------------------- Initial ----------------------------
 
 class SignupInitial<T> extends SignupState<T> {
@@ -178,9 +177,7 @@ class SignupError<T> extends SignupState<T> {
   const SignupError({required this.errorMessage});
 
   SignupError<T> copyWith({String? errorMessage}) {
-    return SignupError<T>(
-      errorMessage: errorMessage ?? this.errorMessage,
-    );
+    return SignupError<T>(errorMessage: errorMessage ?? this.errorMessage);
   }
 
   @override

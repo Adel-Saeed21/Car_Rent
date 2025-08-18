@@ -22,4 +22,10 @@ class AppTextStyle {
     color: AppColors.lightBlue,
     fontWeight: FontWeightHelper.regular,
   );
+
+  static TextStyle font20WhiteRgular = TextStyle(
+    fontWeight: FontWeightHelper.regular,
+    fontSize: 20.sp,
+    color: Colors.white,
+  );
 }

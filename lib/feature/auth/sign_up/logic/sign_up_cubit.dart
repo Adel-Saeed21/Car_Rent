@@ -31,7 +31,7 @@ class SignUpCubit extends Cubit<SignupState> {
         name: nameController.text,
         phone: phoneController.text,
       );
-        debugPrint("✅ SignUp Success: ${user.email}");
+      debugPrint("✅ SignUp Success: ${user.email}");
 
       emit(SignupSuccess(user));
     } catch (e) {

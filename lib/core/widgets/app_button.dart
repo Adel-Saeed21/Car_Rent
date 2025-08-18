@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppButton extends StatelessWidget {
-final Widget child;
+  final Widget child;
   final void Function()? onPressed;
   final Color? backgroundColor;
   final TextStyle? textStyle;
@@ -26,29 +26,29 @@ final Widget child;
     this.verticalPadding,
     this.buttonWidth,
     this.buttonHeight,
-    this.borderSide, 
+    this.borderSide,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextButton(
       style: ButtonStyle(
-        shape: MaterialStatePropertyAll<RoundedRectangleBorder>(
+        shape: WidgetStatePropertyAll<RoundedRectangleBorder>(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(radius ?? 16),
             side: borderSide ?? BorderSide.none, // ✅ هنا بيتطبق البوردر
           ),
         ),
-        backgroundColor: MaterialStatePropertyAll(
+        backgroundColor: WidgetStatePropertyAll(
           backgroundColor ?? AppColors.lightBlue,
         ),
-        padding: MaterialStatePropertyAll<EdgeInsets>(
+        padding: WidgetStatePropertyAll<EdgeInsets>(
           EdgeInsets.symmetric(
             horizontal: horizontalPadding?.w ?? 12.w,
             vertical: verticalPadding?.h ?? 14.h,
           ),
         ),
-        fixedSize: MaterialStatePropertyAll(
+        fixedSize: WidgetStatePropertyAll(
           Size(buttonWidth?.w ?? double.maxFinite, buttonHeight?.h ?? 50.h),
         ),
       ),

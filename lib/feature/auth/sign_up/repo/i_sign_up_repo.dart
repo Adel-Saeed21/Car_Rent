@@ -8,7 +8,6 @@ abstract class ISignUpRepo {
     required String phone,
   });
 
-
   Future<void> logout();
 
   Future<void> saveUserToHive(UserData user);

@@ -21,7 +21,7 @@ class CarRentApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Car Rent App',
-        initialRoute: initialRoute, 
+        initialRoute: initialRoute,
         onGenerateRoute: appRouter.generateRoute,
       ),
     );

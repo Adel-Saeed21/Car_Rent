@@ -10,11 +10,11 @@ class SignUpRepoImplementation extends ISignUpRepo {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   @override
-  Future<void> logout() async{
+  Future<void> logout() async {
     await auth.signOut();
     final box = Hive.box<UserData>('userDataBox');
-    await box.clear(); 
-     }
+    await box.clear();
+  }
 
   @override
   Future<void> saveUserToHive(UserData user) async {
@@ -36,7 +36,7 @@ class SignUpRepoImplementation extends ISignUpRepo {
     debugPrint("✅ Firebase Auth created user: ${userCred.user?.uid}");
     final uid = userCred.user!.uid;
     final user = UserData(uid: uid, email: email, name: name, phone: phone);
-  debugPrint("📌 Saving to Firestore...");
+    debugPrint("📌 Saving to Firestore...");
     await firestore.collection("users").doc(uid).set(user.toJson());
     debugPrint("✅ Firestore user saved");
     await saveUserToHive(user);

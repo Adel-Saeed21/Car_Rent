@@ -177,9 +177,7 @@ class LoginError<T> extends LoginState<T> {
   const LoginError({required this.errorMessage});
 
   LoginError<T> copyWith({String? errorMessage}) {
-    return LoginError<T>(
-      errorMessage: errorMessage ?? this.errorMessage,
-    );
+    return LoginError<T>(errorMessage: errorMessage ?? this.errorMessage);
   }
 
   @override

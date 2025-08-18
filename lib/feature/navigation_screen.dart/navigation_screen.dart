@@ -16,9 +16,9 @@ class _NavigationScreenState extends State<NavigationScreen> {
 
   List<Widget> screens = [
     const Home(),
-    FavoritesScreen(),
-    MessagesScreen(),
-    MenuScreen(),
+    const FavoritesScreen(),
+    const MessagesScreen(),
+    const MenuScreen(),
   ];
 
   @override
@@ -98,6 +98,8 @@ class _NavigationScreenState extends State<NavigationScreen> {
 }
 
 class FavoritesScreen extends StatelessWidget {
+  const FavoritesScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -119,6 +121,8 @@ class FavoritesScreen extends StatelessWidget {
 }
 
 class MessagesScreen extends StatelessWidget {
+  const MessagesScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -140,6 +144,8 @@ class MessagesScreen extends StatelessWidget {
 }
 
 class MenuScreen extends StatelessWidget {
+  const MenuScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
