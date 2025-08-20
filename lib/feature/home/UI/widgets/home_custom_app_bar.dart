@@ -12,42 +12,51 @@ class HomeCustomAppBar extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     final isSmallScreen = screenWidth < 360;
 
-    return SizedBox(
-      width: double.infinity,
-      child: Row(
-        children: [
-          SizedBox(
-            width: isSmallScreen ? 40.w : 45.w,
-            height: isSmallScreen ? 40.h : 45.h,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(20.r),
-              child: Image.asset("assets/images/adool.jpeg", fit: BoxFit.cover),
-            ),
-          ),
-
-          horizontalSpace(isSmallScreen ? 8.w : 12.w),
-
-          const Expanded(child: LocationWidget()),
-
-          horizontalSpace(8.w),
-
-          // Notification Icon
-          Container(
-            width: isSmallScreen ? 35.w : 40.w,
-            height: isSmallScreen ? 35.h : 40.h,
-            decoration: BoxDecoration(
-              color: AppColors.darkGrey,
-              borderRadius: BorderRadius.circular(
-                isSmallScreen ? 17.5.r : 20.r,
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: isSmallScreen ? 12.w : 16.w,
+        vertical: 8.h,
+      ),
+      child: SizedBox(
+        width: double.infinity,
+        child: Row(
+          children: [
+            SizedBox(
+              width: isSmallScreen ? 40.w : 45.w,
+              height: isSmallScreen ? 40.h : 45.h,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20.r),
+                child: Image.asset(
+                  "assets/images/adool.jpeg",
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
-            child: Icon(
-              Icons.notifications_none_outlined,
-              color: Colors.white70,
-              size: isSmallScreen ? 20.sp : 22.sp,
+
+            horizontalSpace(isSmallScreen ? 8.w : 12.w),
+
+            const Expanded(child: LocationWidget()),
+
+            horizontalSpace(8.w),
+
+            // Notification Icon
+            Container(
+              width: isSmallScreen ? 35.w : 40.w,
+              height: isSmallScreen ? 35.h : 40.h,
+              decoration: BoxDecoration(
+                color: AppColors.darkGrey,
+                borderRadius: BorderRadius.circular(
+                  isSmallScreen ? 17.5.r : 20.r,
+                ),
+              ),
+              child: Icon(
+                Icons.notifications_none_outlined,
+                color: Colors.white70,
+                size: isSmallScreen ? 20.sp : 22.sp,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
