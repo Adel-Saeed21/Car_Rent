@@ -1,5 +1,6 @@
 import 'package:carrent/core/di/di.dart';
 import 'package:carrent/core/routing/routes.dart';
+import 'package:carrent/feature/car_Details/car_details_screen.dart';
 import 'package:carrent/feature/home/UI/home.dart';
 import 'package:carrent/feature/auth/log_in/UI/log_in_screen.dart';
 import 'package:carrent/feature/auth/log_in/logic/log_in_cubit.dart';
@@ -32,6 +33,8 @@ class AppRoute {
 
       case Routes.navigationScreen:
         return MaterialPageRoute(builder: (_) => const NavigationScreen());
+      case Routes.carDetails:
+        return MaterialPageRoute(builder: (_) => const CarDetailsScreen());
 
       case Routes.logInScreen:
         return MaterialPageRoute(

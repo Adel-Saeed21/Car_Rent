@@ -1,20 +1,118 @@
 import 'package:carrent/core/helpers/spacing.dart';
 import 'package:carrent/core/utils/app_colors.dart';
-import 'package:carrent/core/utils/app_text_style.dart';
-import 'package:carrent/feature/home/UI/widgets/car_info_widget.dart';
-import 'package:carrent/feature/home/UI/widgets/category_logo.dart';
 import 'package:carrent/feature/home/UI/widgets/home_custom_app_bar.dart';
+
+import 'package:carrent/feature/home/UI/widgets/normal_content.dart';
+import 'package:carrent/feature/home/UI/widgets/search_content.dart';
+
 import 'package:carrent/feature/home/UI/widgets/search_text_field.dart';
-import 'package:carrent/feature/home/data/category_logo_model.dart';
 import 'package:carrent/feature/home/data/car_model.dart';
 import 'package:carrent/feature/home/logic/home_cubit.dart';
-import 'package:carrent/feature/home/logic/home_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'dart:async';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   const Home({super.key});
+
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  final TextEditingController _searchController = TextEditingController();
+  Timer? _debounceTimer;
+  
+  bool _isSearchMode = false;
+  bool _isSearchLoading = false;
+  List<CarModel> _searchResults = [];
+  String _lastSearchQuery = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _searchController.addListener(_onSearchChanged);
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    _debounceTimer?.cancel();
+    super.dispose();
+  }
+
+  void _onSearchChanged() {
+    final query = _searchController.text.trim();
+    
+    if (query.isEmpty) {
+      setState(() {
+        _isSearchMode = false;
+        _isSearchLoading = false;
+        _searchResults.clear();
+        _lastSearchQuery = '';
+      });
+      return;
+    }
+    _debounceTimer?.cancel();
+    
+    if (query != _lastSearchQuery) {
+      setState(() {
+        _isSearchMode = true;
+        _isSearchLoading = true;
+      });
+    }
+
+    _debounceTimer = Timer(const Duration(milliseconds: 500), () {
+      _performSearch(query);
+    });
+  }
+
+  void _performSearch(String query) async {
+    if (!mounted) return;
+
+    _lastSearchQuery = query;
+    
+    await Future.delayed(const Duration(milliseconds: 600));
+    
+    if (!mounted) return;
+
+    final results = <CarModel>[];
+    
+    for (String brand in carsData.keys) {
+      final brandCars = getCarsByBrand(brand);
+      final filteredCars = brandCars.where((car) =>
+        car.name.toLowerCase().contains(query.toLowerCase()) ||
+        car.brand.toLowerCase().contains(query.toLowerCase()) ||
+        car.features.any((feature) => 
+          feature.toLowerCase().contains(query.toLowerCase())
+        )
+      ).toList();
+      results.addAll(filteredCars);
+    }
+
+    if (mounted && query == _lastSearchQuery) {
+      setState(() {
+        _isSearchLoading = false;
+        _searchResults = results;
+      });
+    }
+  }
+
+  void _clearSearch() {
+    _searchController.clear();
+    setState(() {
+      _isSearchMode = false;
+      _isSearchLoading = false;
+      _searchResults.clear();
+      _lastSearchQuery = '';
+    });
+  }
+
+  void _onSuggestionTap(String suggestion) {
+    _searchController.text = suggestion;
+    _onSearchChanged();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,191 +128,37 @@ class Home extends StatelessWidget {
             children: [
               const HomeCustomAppBar(),
               verticalSpace(22.h),
-              const SearchTextField(),
+              
+              // Enhanced Search Field
+              SearchField(
+                controller: _searchController,
+                isSmallScreen: isSmallScreen,
+                isSearchMode: _isSearchMode,
+                isSearchLoading: _isSearchLoading,
+                onClear: _clearSearch,
+              ),
+              
               verticalSpace(22.h),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: isSmallScreen ? 12.w : 16.w,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("Category", style: AppTextStyle.font20WhiteRgular),
-                    TextButton(
-                      onPressed: () {
-                        context.read<HomeCategoryCubit>().resetToDefault();
-                      },
-                      child: Text(
-                        "See All",
-                        style: AppTextStyle.font20WhiteRgular.copyWith(
-                          fontSize: 14.sp,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              // Category List - Fixed
-              BlocBuilder<HomeCategoryCubit, HomeCategoryState>(
-                builder: (context, state) {
-                  final selectedCategory = context
-                      .read<HomeCategoryCubit>()
-                      .currentCategory;
-                  final isLoading = state is HomeCategoryLoading;
-
-                  return SizedBox(
-                    height: 110.h,
-                    width: screenWidth,
-                    child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      padding: EdgeInsets.only(right: 16.w, left: 10.w),
-                      itemCount: categoryModel.length,
-                      itemBuilder: (context, i) => CategoryLogo(
-                        isSmallScreen: isSmallScreen,
-                        imageAssets: categoryModel[i].logoAsset,
-                        logoName: categoryModel[i].logoTextBrand,
-                        isSelected:
-                            selectedCategory == categoryModel[i].logoTextBrand,
-                        isLoading:
-                            isLoading &&
-                            selectedCategory == categoryModel[i].logoTextBrand,
-                        onTap: () {
-                          context.read<HomeCategoryCubit>().selectCategory(
-                            categoryModel[i].logoTextBrand,
-                          );
-                        },
-                      ),
-                      separatorBuilder: (context, index) =>
-                          horizontalSpace(10.w),
-                    ),
-                  );
-                },
-              ),
-
-              verticalSpace(20.h),
-
+              
               Expanded(
-                child: BlocBuilder<HomeCategoryCubit, HomeCategoryState>(
-                  builder: (context, state) {
-                    final selectedCategory = context
-                        .read<HomeCategoryCubit>()
-                        .currentCategory;
-                    final cars = getCarsByBrand(selectedCategory);
-
-                    if (state is HomeCategoryLoading) {
-                      return _buildLoadingState();
-                    }
-
-                    if (state is HomeCategoryError) {
-                      return _buildErrorState(state.errorMessage, context);
-                    }
-
-                    if (cars.isEmpty) {
-                      return _buildEmptyState(selectedCategory);
-                    }
-
-                    return _buildCarsList(cars, screenWidth);
-                  },
-                ),
+                child: _isSearchMode 
+                  ? SearchContent(
+                      isSearchLoading: _isSearchLoading,
+                      searchResults: _searchResults,
+                      searchQuery: _searchController.text,
+                      screenWidth: screenWidth,
+                      onClearSearch: _clearSearch,
+                      onSuggestionTap: _onSuggestionTap,
+                    )
+                  : NormalContent(
+                      screenWidth: screenWidth,
+                      isSmallScreen: isSmallScreen,
+                    ),
               ),
             ],
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildLoadingState() {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          CircularProgressIndicator(color: AppColors.lightBlue, strokeWidth: 3),
-          verticalSpace(20.h),
-          Text(
-            "Loading cars...",
-            style: AppTextStyle.font20WhiteRgular.copyWith(
-              fontSize: 18.sp,
-              color: Colors.blue,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildErrorState(String errorMessage, BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: EdgeInsets.all(20.w),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.error_outline, color: Colors.red, size: 60.sp),
-            verticalSpace(20.h),
-            Text(
-              "Something went wrong",
-              style: AppTextStyle.font20WhiteRgular.copyWith(
-                fontSize: 18.sp,
-                color: Colors.red,
-              ),
-            ),
-            verticalSpace(10.h),
-            Text(
-              errorMessage,
-              style: AppTextStyle.font20WhiteRgular.copyWith(
-                fontSize: 14.sp,
-                color: Colors.grey[400],
-              ),
-              textAlign: TextAlign.center,
-            ),
-            verticalSpace(20.h),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildEmptyState(String selectedCategory) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.directions_car_outlined,
-            color: Colors.grey[400],
-            size: 60.sp,
-          ),
-          verticalSpace(20.h),
-          Text(
-            "No cars available",
-            style: AppTextStyle.font20WhiteRgular.copyWith(
-              fontSize: 18.sp,
-              color: Colors.grey[400],
-            ),
-          ),
-          verticalSpace(10.h),
-          Text(
-            "No cars found for $selectedCategory",
-            style: AppTextStyle.font20WhiteRgular.copyWith(
-              fontSize: 14.sp,
-              color: Colors.grey[500],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildCarsList(List<CarModel> cars, double screenWidth) {
-    return ListView.separated(
-      padding: EdgeInsets.only(left: 16.w, right: 16.w, bottom: 20.h),
-      itemCount: cars.length,
-      itemBuilder: (context, index) {
-        return CarInfoWidget(car: cars[index], screenWidth: screenWidth);
-      },
-      separatorBuilder: (context, index) => verticalSpace(16.h),
     );
   }
 }
