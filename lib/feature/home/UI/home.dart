@@ -1,10 +1,12 @@
 import 'package:carrent/core/helpers/spacing.dart';
 import 'package:carrent/core/utils/app_colors.dart';
 import 'package:carrent/core/utils/app_text_style.dart';
+import 'package:carrent/feature/home/UI/widgets/car_info_widget.dart';
 import 'package:carrent/feature/home/UI/widgets/category_logo.dart';
 import 'package:carrent/feature/home/UI/widgets/home_custom_app_bar.dart';
 import 'package:carrent/feature/home/UI/widgets/search_text_field.dart';
 import 'package:carrent/feature/home/data/category_logo_model.dart';
+import 'package:carrent/feature/home/data/car_model.dart';
 import 'package:carrent/feature/home/logic/home_cubit.dart';
 import 'package:carrent/feature/home/logic/home_state.dart';
 import 'package:flutter/material.dart';
@@ -24,192 +26,195 @@ class Home extends StatelessWidget {
       child: Scaffold(
         backgroundColor: AppColors.lightBlack,
         body: SafeArea(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                const HomeCustomAppBar(),
-                verticalSpace(22.h),
-                const SearchTextField(),
-                verticalSpace(22.h),
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: isSmallScreen ? 12.w : 16.w,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("Category", style: AppTextStyle.font20WhiteRgular),
-                      TextButton(
-                        onPressed: () {
-                          // Reset categories
-                        },
-                        child: Text(
-                          "See All",
-                          style: AppTextStyle.font20WhiteRgular.copyWith(
-                            fontSize: 14.sp,
-                          ),
+          child: Column(
+            children: [
+              const HomeCustomAppBar(),
+              verticalSpace(22.h),
+              const SearchTextField(),
+              verticalSpace(22.h),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: isSmallScreen ? 12.w : 16.w,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("Category", style: AppTextStyle.font20WhiteRgular),
+                    TextButton(
+                      onPressed: () {
+                        context.read<HomeCategoryCubit>().resetToDefault();
+                      },
+                      child: Text(
+                        "See All",
+                        style: AppTextStyle.font20WhiteRgular.copyWith(
+                          fontSize: 14.sp,
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-                // Category List
-                BlocBuilder<HomeCategoryCubit, HomeCategoryState>(
+              ),
+
+              // Category List - Fixed
+              BlocBuilder<HomeCategoryCubit, HomeCategoryState>(
+                builder: (context, state) {
+                  final selectedCategory = context
+                      .read<HomeCategoryCubit>()
+                      .currentCategory;
+                  final isLoading = state is HomeCategoryLoading;
+
+                  return SizedBox(
+                    height: 110.h,
+                    width: screenWidth,
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      padding: EdgeInsets.only(right: 16.w, left: 10.w),
+                      itemCount: categoryModel.length,
+                      itemBuilder: (context, i) => CategoryLogo(
+                        isSmallScreen: isSmallScreen,
+                        imageAssets: categoryModel[i].logoAsset,
+                        logoName: categoryModel[i].logoTextBrand,
+                        isSelected:
+                            selectedCategory == categoryModel[i].logoTextBrand,
+                        isLoading:
+                            isLoading &&
+                            selectedCategory == categoryModel[i].logoTextBrand,
+                        onTap: () {
+                          context.read<HomeCategoryCubit>().selectCategory(
+                            categoryModel[i].logoTextBrand,
+                          );
+                        },
+                      ),
+                      separatorBuilder: (context, index) =>
+                          horizontalSpace(10.w),
+                    ),
+                  );
+                },
+              ),
+
+              verticalSpace(20.h),
+
+              Expanded(
+                child: BlocBuilder<HomeCategoryCubit, HomeCategoryState>(
                   builder: (context, state) {
                     final selectedCategory = context
                         .read<HomeCategoryCubit>()
                         .currentCategory;
-                    final isLoading = state is HomeCategoryLoading;
+                    final cars = getCarsByBrand(selectedCategory);
 
-                    return SizedBox(
-                      height: 110.h,
-                      width: screenWidth,
-                      child: ListView.separated(
-                        scrollDirection: Axis.horizontal,
-                        padding: EdgeInsets.only(right: 16.w, left: 10.w),
-                        itemCount: categoryModel.length,
-                        itemBuilder: (context, i) => CategoryLogo(
-                          isSmallScreen: isSmallScreen,
-                          imageAssets: categoryModel[i].logoAsset,
-                          logoName: categoryModel[i].logoTextBrand,
-                          isSelected:
-                              selectedCategory ==
-                              categoryModel[i].logoTextBrand,
-                          isLoading:
-                              isLoading &&
-                              selectedCategory ==
-                                  categoryModel[i].logoTextBrand,
-                          onTap: () {
-                            context.read<HomeCategoryCubit>().selectCategory(
-                              categoryModel[i].logoTextBrand,
-                            );
-                          },
-                        ),
-                        separatorBuilder: (context, index) =>
-                            horizontalSpace(10.w),
-                      ),
-                    );
+                    if (state is HomeCategoryLoading) {
+                      return _buildLoadingState();
+                    }
+
+                    if (state is HomeCategoryError) {
+                      return _buildErrorState(state.errorMessage, context);
+                    }
+
+                    if (cars.isEmpty) {
+                      return _buildEmptyState(selectedCategory);
+                    }
+
+                    return _buildCarsList(cars, screenWidth);
                   },
                 ),
-                verticalSpace(20.h),
-                // BlocBuilder<HomeCategoryCubit, HomeCategoryState>(
-                //   builder: (context, state) {
-                //     return Padding(
-                //       padding: EdgeInsets.symmetric(horizontal: 16.w),
-                //       child: _buildContentContainer(context, state),
-                //     );
-                //   },
-                // ),
-
-              
-
-
-
-                verticalSpace(20.h),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
     );
   }
 
-  Widget _buildContentContainer(BuildContext context, HomeCategoryState state) {
-    final selectedCategory = context.read<HomeCategoryCubit>().currentCategory;
-
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 300),
-      width: double.infinity,
-      padding: EdgeInsets.all(20.w),
-      decoration: BoxDecoration(
-        color: AppColors.darkGrey,
-        borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: _getBorderColor(state), width: 1),
-      ),
+  Widget _buildLoadingState() {
+    return Center(
       child: Column(
-        children: [
-          _buildStateIndicator(state),
-          verticalSpace(10.h),
-          _buildSuccessContent(selectedCategory, state),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildStateIndicator(HomeCategoryState state) {
-    if (state is HomeCategoryLoading) {
-      return Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SizedBox(
-            width: 16.w,
-            height: 16.h,
-            child: const CircularProgressIndicator(
-              strokeWidth: 2,
-              color: Colors.blue,
-            ),
-          ),
-          horizontalSpace(10.w),
+          CircularProgressIndicator(color: AppColors.lightBlue, strokeWidth: 3),
+          verticalSpace(20.h),
           Text(
             "Loading cars...",
             style: AppTextStyle.font20WhiteRgular.copyWith(
-              fontSize: 16.sp,
+              fontSize: 18.sp,
               color: Colors.blue,
             ),
           ),
         ],
-      );
-    }
-
-    return Text(
-      "Selected Category:",
-      style: AppTextStyle.font20WhiteRgular.copyWith(
-        fontSize: 16.sp,
-        color: Colors.grey,
       ),
     );
   }
 
-  Widget _buildSuccessContent(
-    String selectedCategory,
-    HomeCategoryState state,
-  ) {
-    return Column(
-      children: [
-        Text(
-          selectedCategory,
-          style: AppTextStyle.font20WhiteRgular.copyWith(
-            fontSize: 24.sp,
-            fontWeight: FontWeight.bold,
-            color: AppColors.lightBlue,
-          ),
+  Widget _buildErrorState(String errorMessage, BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: EdgeInsets.all(20.w),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.error_outline, color: Colors.red, size: 60.sp),
+            verticalSpace(20.h),
+            Text(
+              "Something went wrong",
+              style: AppTextStyle.font20WhiteRgular.copyWith(
+                fontSize: 18.sp,
+                color: Colors.red,
+              ),
+            ),
+            verticalSpace(10.h),
+            Text(
+              errorMessage,
+              style: AppTextStyle.font20WhiteRgular.copyWith(
+                fontSize: 14.sp,
+                color: Colors.grey[400],
+              ),
+              textAlign: TextAlign.center,
+            ),
+            verticalSpace(20.h),
+          ],
         ),
-        verticalSpace(15.h),
-        Text(
-          "Cars available for $selectedCategory",
-          style: AppTextStyle.font20WhiteRgular.copyWith(
-            fontSize: 14.sp,
-            color: Colors.grey[400],
-          ),
-          textAlign: TextAlign.center,
-        ),
-        if (state is HomeCategoryChanged) ...[
-          verticalSpace(10.h),
-
-          verticalSpace(5.h),
-        ],
-      ],
+      ),
     );
   }
 
-  Color _getBorderColor(HomeCategoryState state) {
-    if (state is HomeCategoryLoading) {
-      return Colors.blue;
-    } else if (state is HomeCategoryError) {
-      return Colors.red;
-    } else if (state is HomeCategoryChanged) {
-      return Colors.green;
-    }
-    return AppColors.lightBlue;
+  Widget _buildEmptyState(String selectedCategory) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.directions_car_outlined,
+            color: Colors.grey[400],
+            size: 60.sp,
+          ),
+          verticalSpace(20.h),
+          Text(
+            "No cars available",
+            style: AppTextStyle.font20WhiteRgular.copyWith(
+              fontSize: 18.sp,
+              color: Colors.grey[400],
+            ),
+          ),
+          verticalSpace(10.h),
+          Text(
+            "No cars found for $selectedCategory",
+            style: AppTextStyle.font20WhiteRgular.copyWith(
+              fontSize: 14.sp,
+              color: Colors.grey[500],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCarsList(List<CarModel> cars, double screenWidth) {
+    return ListView.separated(
+      padding: EdgeInsets.only(left: 16.w, right: 16.w, bottom: 20.h),
+      itemCount: cars.length,
+      itemBuilder: (context, index) {
+        return CarInfoWidget(car: cars[index], screenWidth: screenWidth);
+      },
+      separatorBuilder: (context, index) => verticalSpace(16.h),
+    );
   }
 }

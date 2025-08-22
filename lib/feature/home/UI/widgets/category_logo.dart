@@ -34,17 +34,17 @@ class CategoryLogo extends StatelessWidget {
         decoration: BoxDecoration(
           color: _getBackgroundColor(),
           borderRadius: BorderRadius.circular(16.r),
-          border: Border.all(
-            color: _getBorderColor(),
-            width: 2,
-          ),
-          boxShadow: isSelected ? [
-            BoxShadow(
-              color: AppColors.lightBlue.withOpacity(0.3),
-              blurRadius: 8,
-              offset: const Offset(0, 4),
-            ),
-          ] : null,
+          border: Border.all(color: _getBorderColor(), width: 2),
+          boxShadow: isSelected
+              ? [
+                  BoxShadow(
+                    // ignore: deprecated_member_use
+                    color: AppColors.lightBlue.withOpacity(0.3),
+                    blurRadius: 8,
+                    offset: const Offset(0, 4),
+                  ),
+                ]
+              : null,
         ),
         child: Column(
           children: [
@@ -56,35 +56,38 @@ class CategoryLogo extends StatelessWidget {
               decoration: BoxDecoration(
                 color: _getIconBackgroundColor(),
                 borderRadius: BorderRadius.circular(30.r),
-                boxShadow: isSelected ? [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
-                    blurRadius: 4,
-                    offset: const Offset(0, 2),
-                  ),
-                ] : null,
+                boxShadow: isSelected
+                    ? [
+                        BoxShadow(
+                          // ignore: deprecated_member_use
+                          color: Colors.black.withOpacity(0.2),
+                          blurRadius: 4,
+                          offset: const Offset(0, 2),
+                        ),
+                      ]
+                    : null,
               ),
               child: Center(
                 child: isLoading
-                  ? SizedBox(
-                      width: 20.w,
-                      height: 20.h,
-                      child: const CircularProgressIndicator(
-                        strokeWidth: 2,
-                        color: Colors.white,
+                    ? SizedBox(
+                        width: 20.w,
+                        height: 20.h,
+                        child: const CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: Colors.white,
+                        ),
+                      )
+                    : AnimatedScale(
+                        scale: isSelected ? 1.1 : 1.0,
+                        duration: const Duration(milliseconds: 300),
+                        child: Image.asset(
+                          imageAssets,
+                          width: 30.w,
+                          height: 30.h,
+                          fit: BoxFit.contain,
+                          color: isSelected ? Colors.white : null,
+                        ),
                       ),
-                    )
-                  : AnimatedScale(
-                      scale: isSelected ? 1.1 : 1.0,
-                      duration: const Duration(milliseconds: 300),
-                      child: Image.asset(
-                        imageAssets,
-                        width: 30.w,
-                        height: 30.h,
-                        fit: BoxFit.contain,
-                        color: isSelected ? Colors.white : null,
-                      ),
-                    ),
               ),
             ),
             verticalSpace(isSmallScreen ? 8.h : 10.h),
@@ -95,10 +98,7 @@ class CategoryLogo extends StatelessWidget {
                 color: _getTextColor(),
                 fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
               ),
-              child: Text(
-                logoName,
-                textAlign: TextAlign.center,
-              ),
+              child: Text(logoName, textAlign: TextAlign.center),
             ),
           ],
         ),
@@ -108,8 +108,10 @@ class CategoryLogo extends StatelessWidget {
 
   Color _getBackgroundColor() {
     if (isLoading) {
+      // ignore: deprecated_member_use
       return AppColors.lightBlue.withOpacity(0.2);
     } else if (isSelected) {
+      // ignore: deprecated_member_use
       return AppColors.lightBlue.withOpacity(0.2);
     }
     return AppColors.darkGrey;

@@ -17,10 +17,7 @@ List<CategoryLogoModel> categoryModel = [
     logoTextBrand: "Bentley",
   ),
 
-  CategoryLogoModel(
-    logoAsset: Assets.assetsImagesAudiLOGO,
-    logoTextBrand: "Audi",
-  ),
+  CategoryLogoModel(logoAsset: Assets.assetsImagesAudi, logoTextBrand: "Audi"),
   CategoryLogoModel(
     logoAsset: Assets.assetsImagesKIALOGO,
     logoTextBrand: "KIA",
