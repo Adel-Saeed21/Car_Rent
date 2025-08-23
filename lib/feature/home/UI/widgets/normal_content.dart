@@ -27,7 +27,9 @@ class NormalContent extends StatelessWidget {
       children: [
         // Category Header
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: isSmallScreen ? 12.w : 16.w),
+          padding: EdgeInsets.symmetric(
+            horizontal: isSmallScreen ? 12.w : 16.w,
+          ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -38,7 +40,9 @@ class NormalContent extends StatelessWidget {
                 },
                 child: Text(
                   "See All",
-                  style: AppTextStyle.font20WhiteRgular.copyWith(fontSize: 14.sp),
+                  style: AppTextStyle.font20WhiteRgular.copyWith(
+                    fontSize: 14.sp,
+                  ),
                 ),
               ),
             ],
@@ -48,7 +52,9 @@ class NormalContent extends StatelessWidget {
         // Category List
         BlocBuilder<HomeCategoryCubit, HomeCategoryState>(
           builder: (context, state) {
-            final selectedCategory = context.read<HomeCategoryCubit>().currentCategory;
+            final selectedCategory = context
+                .read<HomeCategoryCubit>()
+                .currentCategory;
             final isLoading = state is HomeCategoryLoading;
 
             return SizedBox(
@@ -62,8 +68,11 @@ class NormalContent extends StatelessWidget {
                   isSmallScreen: isSmallScreen,
                   imageAssets: categoryModel[i].logoAsset,
                   logoName: categoryModel[i].logoTextBrand,
-                  isSelected: selectedCategory == categoryModel[i].logoTextBrand,
-                  isLoading: isLoading && selectedCategory == categoryModel[i].logoTextBrand,
+                  isSelected:
+                      selectedCategory == categoryModel[i].logoTextBrand,
+                  isLoading:
+                      isLoading &&
+                      selectedCategory == categoryModel[i].logoTextBrand,
                   onTap: () {
                     context.read<HomeCategoryCubit>().selectCategory(
                       categoryModel[i].logoTextBrand,
@@ -82,7 +91,9 @@ class NormalContent extends StatelessWidget {
         Expanded(
           child: BlocBuilder<HomeCategoryCubit, HomeCategoryState>(
             builder: (context, state) {
-              final selectedCategory = context.read<HomeCategoryCubit>().currentCategory;
+              final selectedCategory = context
+                  .read<HomeCategoryCubit>()
+                  .currentCategory;
               final cars = getCarsByBrand(selectedCategory);
 
               if (state is HomeCategoryLoading) {

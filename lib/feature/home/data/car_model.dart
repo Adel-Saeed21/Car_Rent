@@ -23,12 +23,10 @@ class CarModel {
     this.isFavorite = false,
   });
 
-  // Method to toggle favorite
   void toggleFavorite() {
     isFavorite = !isFavorite;
   }
 
-  // Copy with method for state management
   CarModel copyWith({
     String? id,
     String? name,
@@ -225,17 +223,14 @@ final Map<String, List<CarModel>> carsData = {
   ],
 };
 
-// Helper function to get cars by brand
 List<CarModel> getCarsByBrand(String brand) {
   return carsData[brand] ?? [];
 }
 
-// Helper function to get all cars
 List<CarModel> getAllCars() {
   return carsData.values.expand((cars) => cars).toList();
 }
 
-// Helper function to get favorite cars
 List<CarModel> getFavoriteCars() {
   return getAllCars().where((car) => car.isFavorite).toList();
 }

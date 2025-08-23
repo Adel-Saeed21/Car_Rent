@@ -21,13 +21,15 @@ class UserDataAdapter extends TypeAdapter<UserData> {
       email: fields[1] as String?,
       name: fields[2] as String?,
       phone: fields[3] as String?,
+      favouriteCars: (fields[4] as List?)?.cast<String>(),
+      profileImagePath: fields[5] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, UserData obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.uid)
       ..writeByte(1)
@@ -35,7 +37,11 @@ class UserDataAdapter extends TypeAdapter<UserData> {
       ..writeByte(2)
       ..write(obj.name)
       ..writeByte(3)
-      ..write(obj.phone);
+      ..write(obj.phone)
+      ..writeByte(4)
+      ..write(obj.favouriteCars)
+      ..writeByte(5)
+      ..write(obj.profileImagePath);
   }
 
   @override
@@ -58,6 +64,10 @@ UserData _$UserDataFromJson(Map<String, dynamic> json) => UserData(
   email: json['email'] as String?,
   name: json['name'] as String?,
   phone: json['phone'] as String?,
+  favouriteCars: (json['favouriteCars'] as List<dynamic>?)
+      ?.map((e) => e as String)
+      .toList(),
+  profileImagePath: json['profileImagePath'] as String?,
 );
 
 Map<String, dynamic> _$UserDataToJson(UserData instance) => <String, dynamic>{
@@ -65,4 +75,6 @@ Map<String, dynamic> _$UserDataToJson(UserData instance) => <String, dynamic>{
   'email': instance.email,
   'name': instance.name,
   'phone': instance.phone,
+  'favouriteCars': instance.favouriteCars,
+  'profileImagePath': instance.profileImagePath,
 };

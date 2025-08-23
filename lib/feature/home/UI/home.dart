@@ -21,49 +21,49 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final TextEditingController _searchController = TextEditingController();
-  Timer? _debounceTimer;
-  
-  bool _isSearchMode = false;
-  bool _isSearchLoading = false;
-  List<CarModel> _searchResults = [];
+  final TextEditingController searchController = TextEditingController();
+  Timer? debounceTimer;
+
+  bool isSearchMode = false;
+  bool isSearchLoading = false;
+  List<CarModel> searchResults = [];
   String _lastSearchQuery = '';
 
   @override
   void initState() {
     super.initState();
-    _searchController.addListener(_onSearchChanged);
+    searchController.addListener(_onSearchChanged);
   }
 
   @override
   void dispose() {
-    _searchController.dispose();
-    _debounceTimer?.cancel();
+    searchController.dispose();
+    debounceTimer?.cancel();
     super.dispose();
   }
 
   void _onSearchChanged() {
-    final query = _searchController.text.trim();
-    
+    final query = searchController.text.trim();
+
     if (query.isEmpty) {
       setState(() {
-        _isSearchMode = false;
-        _isSearchLoading = false;
-        _searchResults.clear();
+        isSearchMode = false;
+        isSearchLoading = false;
+        searchResults.clear();
         _lastSearchQuery = '';
       });
       return;
     }
-    _debounceTimer?.cancel();
-    
+    debounceTimer?.cancel();
+
     if (query != _lastSearchQuery) {
       setState(() {
-        _isSearchMode = true;
-        _isSearchLoading = true;
+        isSearchMode = true;
+        isSearchLoading = true;
       });
     }
 
-    _debounceTimer = Timer(const Duration(milliseconds: 500), () {
+    debounceTimer = Timer(const Duration(milliseconds: 500), () {
       _performSearch(query);
     });
   }
@@ -72,45 +72,49 @@ class _HomeState extends State<Home> {
     if (!mounted) return;
 
     _lastSearchQuery = query;
-    
+
     await Future.delayed(const Duration(milliseconds: 600));
-    
+
     if (!mounted) return;
 
     final results = <CarModel>[];
-    
+
     for (String brand in carsData.keys) {
       final brandCars = getCarsByBrand(brand);
-      final filteredCars = brandCars.where((car) =>
-        car.name.toLowerCase().contains(query.toLowerCase()) ||
-        car.brand.toLowerCase().contains(query.toLowerCase()) ||
-        car.features.any((feature) => 
-          feature.toLowerCase().contains(query.toLowerCase())
-        )
-      ).toList();
+      final filteredCars = brandCars
+          .where(
+            (car) =>
+                car.name.toLowerCase().contains(query.toLowerCase()) ||
+                car.brand.toLowerCase().contains(query.toLowerCase()) ||
+                car.features.any(
+                  (feature) =>
+                      feature.toLowerCase().contains(query.toLowerCase()),
+                ),
+          )
+          .toList();
       results.addAll(filteredCars);
     }
 
     if (mounted && query == _lastSearchQuery) {
       setState(() {
-        _isSearchLoading = false;
-        _searchResults = results;
+        isSearchLoading = false;
+        searchResults = results;
       });
     }
   }
 
   void _clearSearch() {
-    _searchController.clear();
+    searchController.clear();
     setState(() {
-      _isSearchMode = false;
-      _isSearchLoading = false;
-      _searchResults.clear();
+      isSearchMode = false;
+      isSearchLoading = false;
+      searchResults.clear();
       _lastSearchQuery = '';
     });
   }
 
   void _onSuggestionTap(String suggestion) {
-    _searchController.text = suggestion;
+    searchController.text = suggestion;
     _onSearchChanged();
   }
 
@@ -128,32 +132,30 @@ class _HomeState extends State<Home> {
             children: [
               const HomeCustomAppBar(),
               verticalSpace(22.h),
-              
-              // Enhanced Search Field
               SearchField(
-                controller: _searchController,
+                controller: searchController,
                 isSmallScreen: isSmallScreen,
-                isSearchMode: _isSearchMode,
-                isSearchLoading: _isSearchLoading,
+                isSearchMode: isSearchMode,
+                isSearchLoading: isSearchLoading,
                 onClear: _clearSearch,
               ),
-              
+
               verticalSpace(22.h),
-              
+
               Expanded(
-                child: _isSearchMode 
-                  ? SearchContent(
-                      isSearchLoading: _isSearchLoading,
-                      searchResults: _searchResults,
-                      searchQuery: _searchController.text,
-                      screenWidth: screenWidth,
-                      onClearSearch: _clearSearch,
-                      onSuggestionTap: _onSuggestionTap,
-                    )
-                  : NormalContent(
-                      screenWidth: screenWidth,
-                      isSmallScreen: isSmallScreen,
-                    ),
+                child: isSearchMode
+                    ? SearchContent(
+                        isSearchLoading: isSearchLoading,
+                        searchResults: searchResults,
+                        searchQuery: searchController.text,
+                        screenWidth: screenWidth,
+                        onClearSearch: _clearSearch,
+                        onSuggestionTap: _onSuggestionTap,
+                      )
+                    : NormalContent(
+                        screenWidth: screenWidth,
+                        isSmallScreen: isSmallScreen,
+                      ),
               ),
             ],
           ),

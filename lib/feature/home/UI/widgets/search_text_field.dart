@@ -25,21 +25,23 @@ class SearchField extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(18.r),
-          boxShadow: isSearchMode ? [
-            BoxShadow(
-              color: AppColors.lightBlue.withOpacity(0.3),
-              blurRadius: 8,
-              offset: const Offset(0, 2),
-            ),
-          ] : [],
+          boxShadow: isSearchMode
+              ? [
+                  BoxShadow(
+                    color: AppColors.lightBlue.withOpacity(0.3),
+                    blurRadius: 8,
+                    offset: const Offset(0, 2),
+                  ),
+                ]
+              : [],
         ),
         child: TextField(
           controller: controller,
           style: TextStyle(color: AppColors.offWhite, fontSize: 16.sp),
           decoration: InputDecoration(
-            fillColor: isSearchMode 
-              ? AppColors.darkGrey.withOpacity(0.9)
-              : AppColors.darkGrey,
+            fillColor: isSearchMode
+                ? AppColors.darkGrey.withOpacity(0.9)
+                : AppColors.darkGrey,
             filled: true,
             hintText: isSearchMode ? "Searching" : "search",
             hintStyle: TextStyle(
@@ -48,39 +50,37 @@ class SearchField extends StatelessWidget {
             ),
             border: _textFieldBorderType(18.r, AppColors.darkGrey),
             enabledBorder: _textFieldBorderType(
-              18.r, 
-              isSearchMode ? AppColors.lightBlue.withOpacity(0.5) : AppColors.darkGrey
+              18.r,
+              isSearchMode
+                  ? AppColors.lightBlue.withOpacity(0.5)
+                  : AppColors.darkGrey,
             ),
             focusedBorder: _textFieldBorderType(18.r, AppColors.lightBlue),
-            
+
             prefixIcon: isSearchLoading
-              ? Padding(
-                  padding: EdgeInsets.all(12.w),
-                  child: SizedBox(
-                    width: 20.w,
-                    height: 20.h,
-                    child: CircularProgressIndicator(
-                      color: AppColors.lightBlue,
-                      strokeWidth: 2,
+                ? Padding(
+                    padding: EdgeInsets.all(12.w),
+                    child: SizedBox(
+                      width: 20.w,
+                      height: 20.h,
+                      child: CircularProgressIndicator(
+                        color: AppColors.lightBlue,
+                        strokeWidth: 2,
+                      ),
                     ),
+                  )
+                : Icon(
+                    Icons.search,
+                    size: 22.sp,
+                    color: isSearchMode ? AppColors.lightBlue : Colors.white70,
                   ),
-                )
-              : Icon(
-                  Icons.search,
-                  size: 22.sp,
-                  color: isSearchMode ? AppColors.lightBlue : Colors.white70,
-                ),
-                
+
             suffixIcon: controller.text.isNotEmpty
-              ? IconButton(
-                  onPressed: onClear,
-                  icon: Icon(
-                    Icons.close,
-                    size: 20.sp,
-                    color: Colors.white70,
-                  ),
-                )
-              : null,
+                ? IconButton(
+                    onPressed: onClear,
+                    icon: Icon(Icons.close, size: 20.sp, color: Colors.white70),
+                  )
+                : null,
           ),
         ),
       ),

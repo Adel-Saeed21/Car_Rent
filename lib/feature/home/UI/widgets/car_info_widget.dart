@@ -109,7 +109,7 @@ class CarInfoWidget extends StatelessWidget {
                               behavior: SnackBarBehavior.floating,
                               margin: EdgeInsets.only(
                                 bottom:
-                                    MediaQuery.of(context).size.height * 0.1,
+                                    MediaQuery.of(context).size.height * 0.008,
                                 left: 20,
                                 right: 20,
                               ),
@@ -169,9 +169,7 @@ class CarInfoWidget extends StatelessWidget {
                           "${currentCar.seats < 10 ? '0${currentCar.seats}' : currentCar.seats} Seats",
                       iconData: MdiIcons.carSeat,
                     ),
-                    const CarFeatureRow(
-                      featureText: "\${currentCar.pricePerDay}",
-                    ),
+                    CarFeatureRow(featureText: "\$${currentCar.pricePerDay}"),
                   ],
                 ),
               ],

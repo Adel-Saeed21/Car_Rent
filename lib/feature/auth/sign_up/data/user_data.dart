@@ -18,7 +18,20 @@ class UserData {
   @HiveField(3)
   final String? phone;
 
-  UserData({this.uid, this.email, this.name, this.phone});
+  @HiveField(4)
+  final List<String>? favouriteCars;
+
+  @HiveField(5)
+  final String? profileImagePath;
+
+  UserData({
+    this.uid,
+    this.email,
+    this.name,
+    this.phone,
+    this.favouriteCars,
+    this.profileImagePath,
+  });
 
   factory UserData.fromJson(Map<String, dynamic> json) =>
       _$UserDataFromJson(json);

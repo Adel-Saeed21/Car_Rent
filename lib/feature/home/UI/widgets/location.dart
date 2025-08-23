@@ -93,7 +93,8 @@ class _LocationWidgetState extends State<LocationWidget> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Hi, ${userData?.name ?? ""}",
+          // "Hi, ${userData?.name ?? ""}",
+          "Hi, Adool",
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeightHelper.regular,
