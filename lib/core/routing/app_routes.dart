@@ -9,6 +9,7 @@ import 'package:carrent/feature/auth/sign_up/logic/sign_up_cubit.dart';
 import 'package:carrent/feature/navigation_screen.dart/navigation_screen.dart';
 import 'package:carrent/feature/onBoarding/UI/onboarding_screen.dart';
 import 'package:carrent/feature/onBoarding/start_screen.dart';
+import 'package:carrent/feature/home/data/car_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -17,9 +18,10 @@ class AppRoute {
     switch (settings.name) {
       case Routes.onBoardingScreen:
         return MaterialPageRoute(builder: (_) => const OnboardingScreen());
-
+      
       case Routes.startScreen:
         return MaterialPageRoute(builder: (_) => const StartScreen());
+      
       case Routes.signUpScreen:
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
@@ -27,15 +29,19 @@ class AppRoute {
             child: const SignUpScreen(),
           ),
         );
-
+      
       case Routes.homeScreen:
         return MaterialPageRoute(builder: (_) => const Home());
-
+      
       case Routes.navigationScreen:
         return MaterialPageRoute(builder: (_) => const NavigationScreen());
+      
       case Routes.carDetails:
-        return MaterialPageRoute(builder: (_) => const CarDetailsScreen());
-
+        final CarModel carModel = settings.arguments as CarModel;
+        return MaterialPageRoute(
+          builder: (_) => CarDetailsScreen(carModel: carModel),
+        );
+      
       case Routes.logInScreen:
         return MaterialPageRoute(
           builder: (_) => BlocProvider<LogInCubit>(
@@ -43,6 +49,7 @@ class AppRoute {
             child: const LogInScreen(),
           ),
         );
+      
       default:
         return MaterialPageRoute(builder: (_) => const Scaffold());
     }

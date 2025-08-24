@@ -34,7 +34,7 @@ class CarInfoWidget extends StatelessWidget {
 
         return GestureDetector(
           onTap: () {
-            context.pushNamed(Routes.carDetails);
+            context.pushNamed(Routes.carDetails, arguments: car);
           },
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
