@@ -10,7 +10,7 @@ class CarModel {
   final String imageAsset;
   final int maxSpeed;
   final int seats;
-  final String pricePerDay;
+  final double pricePerDay;
   final List<String> features;
   final List<SpecificationData>? carDataSpecification;
   bool isFavorite;
@@ -39,7 +39,7 @@ class CarModel {
     String? imageAsset,
     int? maxSpeed,
     int? seats,
-    String? pricePerDay,
+    double? pricePerDay,
     List<String>? features,
     bool? isFavorite,
   }) {
@@ -57,7 +57,6 @@ class CarModel {
   }
 }
 
-
 // Cars Data organized by brand
 final Map<String, List<CarModel>> carsData = {
   "Mercedes": [
@@ -68,7 +67,7 @@ final Map<String, List<CarModel>> carsData = {
       imageAsset: Assets.assetsImagesCar1,
       maxSpeed: 310,
       seats: 2,
-      pricePerDay: "250/Day",
+      pricePerDay: 250,
       features: ["Leather Seats", "Sport Mode", "Navigation", "Bluetooth"],
       carDataSpecification: [
         SpecificationData(
@@ -104,7 +103,7 @@ final Map<String, List<CarModel>> carsData = {
       imageAsset: Assets.assetsImagesCar1,
       maxSpeed: 250,
       seats: 4,
-      pricePerDay: "200/Day",
+      pricePerDay: 200,
       features: ["Luxury Interior", "Massage Seats", "Panoramic Roof"],
       carDataSpecification: [
         SpecificationData(
@@ -140,7 +139,7 @@ final Map<String, List<CarModel>> carsData = {
       imageAsset: Assets.assetsImagesCar1,
       maxSpeed: 240,
       seats: 4,
-      pricePerDay: "150/Day",
+      pricePerDay: 150,
       features: ["Sport Package", "LED Lights", "Apple CarPlay"],
       carDataSpecification: [
         SpecificationData(
@@ -179,7 +178,7 @@ final Map<String, List<CarModel>> carsData = {
       imageAsset: Assets.assetsImagesCar1,
       maxSpeed: 305,
       seats: 4,
-      pricePerDay: "280/Day",
+      pricePerDay: 280,
       features: ["M Performance", "Carbon Fiber", "Head-Up Display"],
       carDataSpecification: [
         SpecificationData(
@@ -215,7 +214,7 @@ final Map<String, List<CarModel>> carsData = {
       imageAsset: Assets.assetsImagesCar1,
       maxSpeed: 250,
       seats: 5,
-      pricePerDay: "220/Day",
+      pricePerDay: 220,
       features: ["All-Wheel Drive", "Sport Seats", "Premium Sound"],
       carDataSpecification: [
         SpecificationData(
@@ -251,7 +250,7 @@ final Map<String, List<CarModel>> carsData = {
       imageAsset: Assets.assetsImagesCar1,
       maxSpeed: 250,
       seats: 2,
-      pricePerDay: "350/Day",
+      pricePerDay: 350,
       features: ["Hybrid Engine", "Butterfly Doors", "Carbon Body"],
 
       carDataSpecification: [
@@ -291,7 +290,7 @@ final Map<String, List<CarModel>> carsData = {
       imageAsset: Assets.assetsImagesCar1,
       maxSpeed: 330,
       seats: 2,
-      pricePerDay: "300/Day",
+      pricePerDay: 300,
       features: ["V10 Engine", "Quattro AWD", "Virtual Cockpit"],
 
       carDataSpecification: [
@@ -328,7 +327,7 @@ final Map<String, List<CarModel>> carsData = {
       imageAsset: Assets.assetsImagesCar1,
       maxSpeed: 240,
       seats: 7,
-      pricePerDay: "180/Day",
+      pricePerDay: 180,
       features: ["3rd Row Seats", "Matrix LED", "Bang & Olufsen"],
 
       carDataSpecification: [
@@ -365,7 +364,7 @@ final Map<String, List<CarModel>> carsData = {
       imageAsset: Assets.assetsImagesCar1,
       maxSpeed: 250,
       seats: 4,
-      pricePerDay: "230/Day",
+      pricePerDay: 230,
       features: ["Executive Package", "Massage Function", "Night Vision"],
 
       carDataSpecification: [
@@ -405,7 +404,7 @@ final Map<String, List<CarModel>> carsData = {
       imageAsset: Assets.assetsImagesCar1,
       maxSpeed: 333,
       seats: 4,
-      pricePerDay: "450/Day",
+      pricePerDay: 450,
       features: ["W12 Engine", "Diamond Quilting", "Rotating Display"],
 
       carDataSpecification: [
@@ -442,7 +441,7 @@ final Map<String, List<CarModel>> carsData = {
       imageAsset: Assets.assetsImagesCar1,
       maxSpeed: 296,
       seats: 4,
-      pricePerDay: "400/Day",
+      pricePerDay: 400,
       features: ["Handcrafted Interior", "Mulliner Spec", "Privacy Glass"],
       carDataSpecification: [
         SpecificationData(
@@ -481,7 +480,7 @@ final Map<String, List<CarModel>> carsData = {
       imageAsset: Assets.assetsImagesCar1,
       maxSpeed: 325,
       seats: 2,
-      pricePerDay: "500/Day",
+      pricePerDay: 500,
       features: ["V10 Engine", "Carbon Fiber", "Track Mode"],
       carDataSpecification: [
         SpecificationData(
@@ -517,7 +516,7 @@ final Map<String, List<CarModel>> carsData = {
       imageAsset: Assets.assetsImagesCar1,
       maxSpeed: 350,
       seats: 2,
-      pricePerDay: "600/Day",
+      pricePerDay: 600,
       features: ["Scissor Doors", "V12 Engine", "Launch Control"],
 
       carDataSpecification: [
@@ -557,7 +556,7 @@ final Map<String, List<CarModel>> carsData = {
       imageAsset: Assets.assetsImagesCar1,
       maxSpeed: 330,
       seats: 2,
-      pricePerDay: "550/Day",
+      pricePerDay: 550,
       features: ["Twin Turbo V8", "F1 Technology", "Side Slip Control"],
 
       carDataSpecification: [
@@ -594,7 +593,7 @@ final Map<String, List<CarModel>> carsData = {
       imageAsset: Assets.assetsImagesCar1,
       maxSpeed: 340,
       seats: 2,
-      pricePerDay: "580/Day",
+      pricePerDay: 580,
       features: ["720 HP", "Aerodynamic Body", "Racing Suspension"],
 
       carDataSpecification: [

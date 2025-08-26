@@ -60,21 +60,21 @@ class UserDataAdapter extends TypeAdapter<UserData> {
 // **************************************************************************
 
 UserData _$UserDataFromJson(Map<String, dynamic> json) => UserData(
-  uid: json['uid'] as String?,
-  email: json['email'] as String?,
-  name: json['name'] as String?,
-  phone: json['phone'] as String?,
-  favouriteCars: (json['favouriteCars'] as List<dynamic>?)
-      ?.map((e) => e as String)
-      .toList(),
-  profileImagePath: json['profileImagePath'] as String?,
-);
+      uid: json['uid'] as String?,
+      email: json['email'] as String?,
+      name: json['name'] as String?,
+      phone: json['phone'] as String?,
+      favouriteCars: (json['favouriteCars'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
+      profileImagePath: json['profileImagePath'] as String?,
+    );
 
 Map<String, dynamic> _$UserDataToJson(UserData instance) => <String, dynamic>{
-  'uid': instance.uid,
-  'email': instance.email,
-  'name': instance.name,
-  'phone': instance.phone,
-  'favouriteCars': instance.favouriteCars,
-  'profileImagePath': instance.profileImagePath,
-};
+      'uid': instance.uid,
+      'email': instance.email,
+      'name': instance.name,
+      'phone': instance.phone,
+      'favouriteCars': instance.favouriteCars,
+      'profileImagePath': instance.profileImagePath,
+    };

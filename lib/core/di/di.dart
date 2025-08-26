@@ -1,3 +1,6 @@
+import 'package:carrent/feature/FeedBack/Logic/feedback_cubit.dart';
+import 'package:carrent/feature/FeedBack/data/Repos/feedback_repo.dart';
+import 'package:carrent/feature/FeedBack/data/Repos/i_feedback_repo.dart';
 import 'package:carrent/feature/auth/log_in/data/repos/i_login_repo.dart';
 import 'package:carrent/feature/auth/log_in/data/repos/login_repo_implementation.dart';
 import 'package:carrent/feature/auth/log_in/logic/log_in_cubit.dart';
@@ -17,4 +20,8 @@ void setUpDI() {
   //signup  cubit
   getit.registerLazySingleton<ISignUpRepo>(() => SignUpRepoImplementation());
   getit.registerFactory(() => SignUpCubit(getit()));
+
+  //feedback cubit
+  getit.registerLazySingleton<IFeedbackRepository>(() => FeedbackRepository());
+  getit.registerFactory(() => FeedbackCubit(getit()));
 }

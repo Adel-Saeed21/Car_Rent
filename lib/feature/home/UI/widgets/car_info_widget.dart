@@ -169,7 +169,9 @@ class CarInfoWidget extends StatelessWidget {
                           "${currentCar.seats < 10 ? '0${currentCar.seats}' : currentCar.seats} Seats",
                       iconData: MdiIcons.carSeat,
                     ),
-                    CarFeatureRow(featureText: "\$${currentCar.pricePerDay}"),
+                    CarFeatureRow(
+                      featureText: "\$${currentCar.pricePerDay}/Day",
+                    ),
                   ],
                 ),
               ],

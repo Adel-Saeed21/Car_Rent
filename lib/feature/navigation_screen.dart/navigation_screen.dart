@@ -1,4 +1,5 @@
 import 'package:carrent/core/utils/app_colors.dart';
+import 'package:carrent/feature/FeedBack/UI/feedback_screen.dart';
 import 'package:carrent/feature/Profile/profile_screen.dart';
 import 'package:carrent/feature/home/UI/home.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
   List<Widget> screens = [
     const Home(),
     const FavoritesScreen(),
-    const MessagesScreen(),
+    const FeedbackScreen(),
     const ProfileScreen(),
   ];
 
@@ -114,49 +115,6 @@ class FavoritesScreen extends StatelessWidget {
           children: [
             Icon(Icons.favorite, size: 100, color: Colors.red),
             Text('Favorites Screen', style: TextStyle(fontSize: 24)),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class MessagesScreen extends StatelessWidget {
-  const MessagesScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Messages'),
-        backgroundColor: Colors.green,
-      ),
-      body: const Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.chat_bubble, size: 100, color: Colors.green),
-            Text('Messages Screen', style: TextStyle(fontSize: 24)),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class MenuScreen extends StatelessWidget {
-  const MenuScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Menu'), backgroundColor: Colors.orange),
-      body: const Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.menu, size: 100, color: Colors.orange),
-            Text('Menu Screen', style: TextStyle(fontSize: 24)),
           ],
         ),
       ),
