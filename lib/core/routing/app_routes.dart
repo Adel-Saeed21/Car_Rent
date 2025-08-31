@@ -1,5 +1,9 @@
 import 'package:carrent/core/di/di.dart';
 import 'package:carrent/core/routing/routes.dart';
+import 'package:carrent/feature/Booking/data/repo/booking_rep.dart';
+import 'package:carrent/feature/FeedBack/data/Repos/feedback_repo.dart';
+import 'package:carrent/feature/auth/forget_password/logic/reset_password_cubit.dart';
+import 'package:carrent/feature/auth/forget_password/ui/reset_password.dart';
 import 'package:carrent/feature/car_Details/car_details_screen.dart';
 import 'package:carrent/feature/home/UI/home.dart';
 import 'package:carrent/feature/auth/log_in/UI/log_in_screen.dart';
@@ -18,10 +22,10 @@ class AppRoute {
     switch (settings.name) {
       case Routes.onBoardingScreen:
         return MaterialPageRoute(builder: (_) => const OnboardingScreen());
-      
+
       case Routes.startScreen:
         return MaterialPageRoute(builder: (_) => const StartScreen());
-      
+
       case Routes.signUpScreen:
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
@@ -29,19 +33,25 @@ class AppRoute {
             child: const SignUpScreen(),
           ),
         );
-      
+
       case Routes.homeScreen:
         return MaterialPageRoute(builder: (_) => const Home());
-      
+
       case Routes.navigationScreen:
         return MaterialPageRoute(builder: (_) => const NavigationScreen());
-      
+
       case Routes.carDetails:
         final CarModel carModel = settings.arguments as CarModel;
+        final FeedbackRepository feedbackRepository = FeedbackRepository();
+        final BookingRep bookingRep = BookingRep();
         return MaterialPageRoute(
-          builder: (_) => CarDetailsScreen(carModel: carModel),
+          builder: (_) => CarDetailsScreen(
+            carModel: carModel,
+            feedbackRepository: feedbackRepository,
+            bookingRep: bookingRep,
+          ),
         );
-      
+
       case Routes.logInScreen:
         return MaterialPageRoute(
           builder: (_) => BlocProvider<LogInCubit>(
@@ -49,7 +59,14 @@ class AppRoute {
             child: const LogInScreen(),
           ),
         );
-      
+      case Routes.resetPassword:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => getit<ResetPasswordCubit>(),
+            child: const ResetPassword(),
+          ),
+        );
+
       default:
         return MaterialPageRoute(builder: (_) => const Scaffold());
     }

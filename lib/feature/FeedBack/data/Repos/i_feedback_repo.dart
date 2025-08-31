@@ -13,9 +13,10 @@ abstract class IFeedbackRepository {
   Future<void> addFeedback(String carId, FeedbackItem feedback);
 
   Future<void> removeBookedCar(String carId);
-
+  bool isCarInFeedbackList(String carId);
   Future<void> clearAll();
   bool isCarBooked(String carId);
+Future<void> linkBookingToFeedback(String carId, String bookingId);
 
   void dispose();
 }

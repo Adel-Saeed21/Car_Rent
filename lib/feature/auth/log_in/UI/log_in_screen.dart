@@ -60,6 +60,8 @@ class LogInScreen extends StatelessWidget {
 
                 verticalSpace(25.h),
 
+                
+
                 // Social Login Buttons
                 const SocialLoginButtons(),
 

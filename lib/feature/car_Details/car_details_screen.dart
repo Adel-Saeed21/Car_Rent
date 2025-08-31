@@ -1,4 +1,6 @@
 import 'package:carrent/core/utils/app_colors.dart';
+import 'package:carrent/feature/Booking/data/repo/booking_rep.dart';
+import 'package:carrent/feature/FeedBack/data/Repos/feedback_repo.dart';
 import 'package:carrent/feature/car_Details/test.dart';
 import 'package:carrent/feature/car_Details/widgets/car_details_widget.dart';
 import 'package:carrent/feature/car_Details/widgets/car_detais_app_bar.dart';
@@ -9,8 +11,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class CarDetailsScreen extends StatefulWidget {
-  const CarDetailsScreen({super.key, required this.carModel});
+  const CarDetailsScreen({super.key, required this.carModel, required this.bookingRep, required this.feedbackRepository});
   final CarModel carModel;
+  final BookingRep bookingRep;
+  final FeedbackRepository feedbackRepository;
 
   @override
   State<CarDetailsScreen> createState() => _CarDetailsScreenState();
@@ -91,6 +95,9 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
 
           // Car Info Section
           CarDetailsWidget(
+            feedbackRepository: FeedbackRepository(),
+            bookingRepository:widget.bookingRep ,
+            carModel:widget.carModel ,
             specifications:
                 widget.carModel.carDataSpecification ?? carSpecifications,
             features: widget.carModel.features,

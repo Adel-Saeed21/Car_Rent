@@ -19,11 +19,10 @@ class FeedbackCubit extends Cubit<FeedbackState> {
     }
   }
 
-  // إضافة عربية جديدة للقائمة المحجوزة
   Future<void> addBookedCar(CarModel car) async {
     try {
       await feedbackRepository.addBookedCar(car);
-      loadBookedCars(); // إعادة تحميل القائمة
+      loadBookedCars(); 
     } catch (e) {
       emit(FeedbackError("Failed to add booked car: $e"));
     }

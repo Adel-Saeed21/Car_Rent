@@ -11,6 +11,7 @@ class CarModel {
   final int maxSpeed;
   final int seats;
   final double pricePerDay;
+  List<String> bookingIds;
   final List<String> features;
   final List<SpecificationData>? carDataSpecification;
   bool isFavorite;
@@ -26,6 +27,7 @@ class CarModel {
     required this.features,
     this.isFavorite = false,
     this.carDataSpecification,
+    this.bookingIds = const [],
   });
 
   void toggleFavorite() {
@@ -42,6 +44,7 @@ class CarModel {
     double? pricePerDay,
     List<String>? features,
     bool? isFavorite,
+    List<String>? bookingIds,
   }) {
     return CarModel(
       id: id ?? this.id,
@@ -53,6 +56,7 @@ class CarModel {
       pricePerDay: pricePerDay ?? this.pricePerDay,
       features: features ?? this.features,
       isFavorite: isFavorite ?? this.isFavorite,
+      bookingIds: bookingIds ?? this.bookingIds,
     );
   }
 }

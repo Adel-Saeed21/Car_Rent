@@ -76,7 +76,22 @@ class _LogInFormState extends State<LogInForm> {
             focusBorderColor: AppColors.lightBlue,
             enableBorderColor: Colors.grey,
           ),
-          verticalSpace(16.h),
+          verticalSpace(5.h),
+          Align(
+            alignment: Alignment.centerRight,
+            child: TextButton(
+              onPressed: () {
+                context.pushNamed(Routes.resetPassword);
+              },
+              child: Text(
+                "Forget Password ?",
+
+                style: TextStyle(color: AppColors.lightBlue, fontSize: 14.sp),
+              ),
+            ),
+          ),
+          verticalSpace(5.h),
+
           BlocConsumer<LogInCubit, LoginState>(
             listener: (context, state) {
               if (state is LoginSuccess) {

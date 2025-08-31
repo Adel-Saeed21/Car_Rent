@@ -22,13 +22,14 @@ class FeedbackModelAdapter extends TypeAdapter<FeedbackModel> {
       carBrand: fields[2] as String,
       carImage: fields[3] as String,
       feedbacks: (fields[4] as List).cast<FeedbackItem>(),
+      bookingId: fields[5] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, FeedbackModel obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.carId)
       ..writeByte(1)
@@ -38,7 +39,9 @@ class FeedbackModelAdapter extends TypeAdapter<FeedbackModel> {
       ..writeByte(3)
       ..write(obj.carImage)
       ..writeByte(4)
-      ..write(obj.feedbacks);
+      ..write(obj.feedbacks)
+      ..writeByte(5)
+      ..write(obj.bookingId);
   }
 
   @override
@@ -111,6 +114,7 @@ FeedbackModel _$FeedbackModelFromJson(Map<String, dynamic> json) =>
       feedbacks: (json['feedbacks'] as List<dynamic>)
           .map((e) => FeedbackItem.fromJson(e as Map<String, dynamic>))
           .toList(),
+      bookingId: json['bookingId'] as String?,
     );
 
 Map<String, dynamic> _$FeedbackModelToJson(FeedbackModel instance) =>
@@ -120,6 +124,7 @@ Map<String, dynamic> _$FeedbackModelToJson(FeedbackModel instance) =>
       'carBrand': instance.carBrand,
       'carImage': instance.carImage,
       'feedbacks': instance.feedbacks,
+      'bookingId': instance.bookingId,
     };
 
 FeedbackItem _$FeedbackItemFromJson(Map<String, dynamic> json) => FeedbackItem(

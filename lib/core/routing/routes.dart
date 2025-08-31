@@ -6,4 +6,6 @@ class Routes {
   static const String homeScreen = '/home';
   static const String navigationScreen = '/navigationScreen';
   static const String carDetails = '/carDetailsScreen';
+    static const String resetPassword = '/ResetPasswordScreen';
+
 }

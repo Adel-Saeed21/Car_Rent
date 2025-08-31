@@ -31,9 +31,9 @@ class StartScreen extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    verticalSpace(80.h),
+                    verticalSpace(400.h),
                     const CarvOnLogo(),
-                    verticalSpace(50.h),
+                    verticalSpace(30.h),
 
                     AppButton(
                       buttonHeight: 40.h,
@@ -47,7 +47,10 @@ class StartScreen extends StatelessWidget {
                       },
                       backgroundColor: AppColors.lightBlue,
                       radius: 25.r,
-                      child: const Text("Sign up"),
+                      child: Text(
+                        "Sign up",
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
 
                     SizedBox(height: 15.h),
@@ -62,7 +65,10 @@ class StartScreen extends StatelessWidget {
                       backgroundColor: Colors.transparent,
                       borderSide: const BorderSide(color: Colors.grey),
                       radius: 25.r,
-                      child: const Text("Log In"),
+                      child: const Text(
+                        "Log In",
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
                     verticalSpace(80.h),
                   ],

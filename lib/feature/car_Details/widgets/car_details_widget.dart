@@ -4,28 +4,71 @@ import 'package:carrent/core/helpers/spacing.dart';
 import 'package:carrent/core/theming/font_weight_helper.dart';
 import 'package:carrent/core/utils/app_colors.dart';
 import 'package:carrent/core/utils/app_text_style.dart';
+import 'package:carrent/feature/Booking/data/repo/i_booking_repo.dart';
+import 'package:carrent/feature/FeedBack/data/Repos/i_feedback_repo.dart';
+import 'package:carrent/feature/auth/sign_up/data/user_data.dart';
 import 'package:carrent/feature/car_Details/logic/car_details_state.dart';
 import 'package:carrent/feature/car_Details/logic/car_detials_cubit.dart';
 import 'package:carrent/feature/car_Details/widgets/specification_car_widget.dart';
+import 'package:carrent/feature/home/data/car_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hive/hive.dart';
 
-class CarDetailsWidget extends StatelessWidget {
+class CarDetailsWidget extends StatefulWidget {
   final List<SpecificationData> specifications;
   final List<String> features;
   final double price;
+  final IBookingRepository bookingRepository;
+  final IFeedbackRepository feedbackRepository;
+  final CarModel carModel;
+
   const CarDetailsWidget({
     super.key,
     required this.specifications,
     required this.features,
     required this.price,
+    required this.bookingRepository,
+    required this.feedbackRepository,
+    required this.carModel,
   });
+
+  @override
+  State<CarDetailsWidget> createState() => _CarDetailsWidgetState();
+}
+
+class _CarDetailsWidgetState extends State<CarDetailsWidget> {
+  UserData? userData;
+
+  @override
+  void initState() {
+    super.initState();
+    loadUserData();
+  }
+
+  Future<void> loadUserData() async {
+    var box = await Hive.openBox<UserData>('UserDataBox');
+    setState(() {
+      userData = box.get('currentUser');
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => CarDetailsCubit(price),
+      create: (context) {
+        final cubit = CarDetailsCubit(
+          widget.price,
+          widget.bookingRepository,
+          widget.feedbackRepository,
+          widget.carModel,
+        );
+        
+        _initializeRepositories(cubit);
+        
+        return cubit;
+      },
       child: Expanded(
         flex: 2,
         child: Container(
@@ -59,22 +102,17 @@ class CarDetailsWidget extends StatelessWidget {
                   ),
                 ),
                 verticalSpace(20.h),
-
                 SpecificationGrid(
-                  specifications: specifications,
+                  specifications: widget.specifications,
                   crossAxisCount: 2,
                   mainAxisSpacing: 12.h,
                   crossAxisSpacing: 12.w,
                 ),
-
                 verticalSpace(20.h),
-
                 _buildAdditionalFeatures(),
-
                 verticalSpace(20.h),
                 _buildTimeBook(),
                 verticalSpace(10.h),
-
                 _buildRentButton(context),
               ],
             ),
@@ -84,6 +122,16 @@ class CarDetailsWidget extends StatelessWidget {
     );
   }
 
+  void _initializeRepositories(CarDetailsCubit cubit) async {
+    try {
+      await widget.bookingRepository.init();
+      await widget.feedbackRepository.init();
+    } catch (error) {
+      print('Error initializing repositories: $error');
+    }
+  }
+
+  // باقي الدوال تبقى كما هي...
   Widget _buildAdditionalFeatures() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -99,7 +147,7 @@ class CarDetailsWidget extends StatelessWidget {
         Wrap(
           spacing: 8.w,
           runSpacing: 8.h,
-          children: features.map((feature) {
+          children: widget.features.map((feature) {
             return Container(
               padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
               decoration: BoxDecoration(
@@ -125,75 +173,70 @@ class CarDetailsWidget extends StatelessWidget {
   }
 
   Widget _buildRentButton(BuildContext context) {
-    return BlocBuilder<CarDetailsCubit, CarDetailsState>(
-      builder: (context, state) {
-        final cubit = context.read<CarDetailsCubit>();
-        final totalPrice = cubit.getCarPrice();
-        final hasSelectedDates =
-            state.startDate != null && state.endDate != null;
-
-        return Container(
-          width: double.infinity,
-          height: 55.h,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: hasSelectedDates
-                  ? [Colors.cyan, Colors.blue]
-                  : [Colors.grey.shade600, Colors.grey.shade700],
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
+    return BlocListener<CarDetailsCubit, CarDetailsState>(
+      listener: (context, state) {
+        if (state.error != null) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.error!),
+              backgroundColor: Colors.red,
             ),
-            borderRadius: BorderRadius.circular(16.r),
-            boxShadow: hasSelectedDates
-                ? [
-                    BoxShadow(
-                      color: Colors.cyan.withOpacity(0.3),
-                      blurRadius: 15,
-                      offset: const Offset(0, 5),
-                    ),
-                  ]
-                : [],
-          ),
-          child: Material(
+          );
+        }
+        if (state.bookingSuccess) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Car booked successfully!'),
+              backgroundColor: Colors.green,
+            ),
+          );
+        }
+      },
+      child: BlocBuilder<CarDetailsCubit, CarDetailsState>(
+        builder: (context, state) {
+          final cubit = context.read<CarDetailsCubit>();
+          final totalPrice = cubit.getCarPrice();
+          final hasSelectedDates = state.startDate != null && state.endDate != null;
+
+          return Material(
             color: Colors.transparent,
             child: InkWell(
               borderRadius: BorderRadius.circular(16.r),
-              onTap: hasSelectedDates
+              onTap: hasSelectedDates && !state.isLoading
                   ? () {
-                      print("Total Price: \$${totalPrice.toStringAsFixed(2)}");
+                      String? userId = userData!.uid;
+                      cubit.bookCar(userId!);
                     }
                   : null,
               child: Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.car_rental,
-                      color: hasSelectedDates
-                          ? Colors.white
-                          : Colors.grey.shade400,
-                      size: 20.sp,
-                    ),
-                    horizontalSpace(8.w),
-                    Text(
-                      hasSelectedDates
-                          ? "Rent Now - \$${totalPrice.toStringAsFixed(2)}"
-                          : "Select dates to rent",
-                      style: AppTextStyle.font20WhiteRgular.copyWith(
-                        fontSize: 18.sp,
-                        fontWeight: FontWeightHelper.bold,
-                        color: hasSelectedDates
-                            ? Colors.white
-                            : Colors.grey.shade400,
+                child: state.isLoading
+                    ? const CircularProgressIndicator(color: Colors.white)
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.car_rental,
+                            color: hasSelectedDates ? Colors.white : Colors.grey.shade400,
+                            size: 20.sp,
+                          ),
+                          horizontalSpace(8.w),
+                          Text(
+                            hasSelectedDates
+                                ? "Rent Now - \$${totalPrice.toStringAsFixed(2)}"
+                                : "Select dates to rent",
+                            style: AppTextStyle.font20WhiteRgular.copyWith(
+                              fontSize: 18.sp,
+                              fontWeight: FontWeightHelper.bold,
+                              color: hasSelectedDates ? Colors.white : Colors.grey.shade400,
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
-                ),
               ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 
@@ -306,7 +349,6 @@ class CarDetailsWidget extends StatelessWidget {
                         : "Select Date",
                     style: AppTextStyle.font20WhiteRgular.copyWith(
                       fontSize: 14.sp,
-
                       color: selectedDate != null
                           ? Colors.white
                           : AppColors.offWhite,
@@ -349,7 +391,6 @@ class CarDetailsWidget extends StatelessWidget {
 
   Future<void> _selectEndDate(BuildContext context) async {
     final state = context.read<CarDetailsCubit>().state;
-
     if (state.startDate == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(

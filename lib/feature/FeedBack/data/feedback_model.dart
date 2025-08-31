@@ -6,9 +6,9 @@ part 'feedback_model.g.dart';
 
 @HiveType(typeId: 2)
 @JsonSerializable()
-class FeedbackModel {
+class FeedbackModel extends HiveObject {
   @HiveField(0)
-  final String carId; // للربط مع CarModel
+  final String carId; 
   
   @HiveField(1)
   final String carName;
@@ -21,13 +21,15 @@ class FeedbackModel {
   
   @HiveField(4)
   final List<FeedbackItem> feedbacks;
-
+@HiveField(5) 
+final  String? bookingId;
   FeedbackModel({
     required this.carId,
     required this.carName,
     required this.carBrand,
     required this.carImage,
     required this.feedbacks,
+    this.bookingId,
   });
 
   factory FeedbackModel.fromJson(Map<String, dynamic> json) =>

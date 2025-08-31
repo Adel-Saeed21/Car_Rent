@@ -9,12 +9,21 @@ class FeedbackRepository extends IFeedbackRepository {
 
   @override
   Future<void> init() async {
-    feedbackBox = await Hive.openBox<FeedbackModel>(feedbackBoxName);
+    try {
+      feedbackBox = await Hive.openBox<FeedbackModel>(feedbackBoxName);
+    } catch (e) {
+      throw Exception('Failed to initialize feedback box: $e');
+    }
   }
 
   @override
   List<FeedbackModel> getBookedCars() {
-    return feedbackBox.values.toList();
+    return feedbackBox.values
+        .where(
+          (feedback) =>
+              feedback.bookingId != null && feedback.bookingId!.isNotEmpty,
+        )
+        .toList();
   }
 
   @override
@@ -27,9 +36,28 @@ class FeedbackRepository extends IFeedbackRepository {
   @override
   Future<void> addBookedCar(CarModel car) async {
     final existingFeedback = getCarFeedback(car.id);
+
     if (existingFeedback == null) {
       final feedbackModel = FeedbackModel.fromCarModel(car);
       await feedbackBox.put(car.id, feedbackModel);
+    }
+  }
+
+  @override
+  Future<void> linkBookingToFeedback(String carId, String bookingId) async {
+    final existingFeedback = getCarFeedback(carId);
+
+    if (existingFeedback != null) {
+      final updatedFeedback = FeedbackModel(
+        carId: existingFeedback.carId,
+        carName: existingFeedback.carName,
+        carBrand: existingFeedback.carBrand,
+        carImage: existingFeedback.carImage,
+        feedbacks: existingFeedback.feedbacks,
+        bookingId: bookingId,
+      );
+
+      await feedbackBox.put(carId, updatedFeedback);
     }
   }
 
@@ -51,8 +79,17 @@ class FeedbackRepository extends IFeedbackRepository {
   Future<void> clearAll() async {
     await feedbackBox.clear();
   }
+
   @override
   bool isCarBooked(String carId) {
+    final feedback = getCarFeedback(carId);
+    return feedback != null &&
+        feedback.bookingId != null &&
+        feedback.bookingId!.isNotEmpty;
+  }
+
+  @override
+  bool isCarInFeedbackList(String carId) {
     return feedbackBox.containsKey(carId);
   }
 
