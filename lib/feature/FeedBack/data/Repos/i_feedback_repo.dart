@@ -8,7 +8,7 @@ abstract class IFeedbackRepository {
 
   FeedbackModel? getCarFeedback(String carId);
 
-  Future<void> addBookedCar(CarModel car);
+  Future<void> addBookedCar(CarModel car, String bookingId);
 
   Future<void> addFeedback(String carId, FeedbackItem feedback);
 
@@ -16,7 +16,7 @@ abstract class IFeedbackRepository {
   bool isCarInFeedbackList(String carId);
   Future<void> clearAll();
   bool isCarBooked(String carId);
-Future<void> linkBookingToFeedback(String carId, String bookingId);
+  Future<void> linkBookingToFeedback(String carId, String bookingId);
 
   void dispose();
 }

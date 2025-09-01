@@ -37,13 +37,14 @@ final  String? bookingId;
 
   Map<String, dynamic> toJson() => _$FeedbackModelToJson(this);
 
-  factory FeedbackModel.fromCarModel(CarModel car) {
+  factory FeedbackModel.fromCarModel(CarModel car, [String? bookingId]) {
     return FeedbackModel(
       carId: car.id,
       carName: car.name,
       carBrand: car.brand,
       carImage: car.imageAsset,
       feedbacks: [],
+      bookingId: bookingId
     );
   }
 

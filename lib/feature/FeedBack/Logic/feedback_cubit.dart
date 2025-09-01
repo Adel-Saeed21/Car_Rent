@@ -13,15 +13,18 @@ class FeedbackCubit extends Cubit<FeedbackState> {
     try {
       emit(FeedbackLoading());
       final bookedCars = feedbackRepository.getBookedCars();
-      emit(BookedCarsLoaded(bookedCars));
-    } catch (e) {
+ if (bookedCars.isNotEmpty) {
+        emit(BookedCarsLoaded(bookedCars));
+      } else {
+        emit(BookedCarsLoaded([])); // قائمة فارغة بدل من null
+      }    } catch (e) {
       emit(FeedbackError("Failed to load booked cars: $e"));
     }
   }
 
-  Future<void> addBookedCar(CarModel car) async {
+  Future<void> addBookedCar(CarModel car,String bookindId) async {
     try {
-      await feedbackRepository.addBookedCar(car);
+      await feedbackRepository.addBookedCar(car, bookindId);
       loadBookedCars(); 
     } catch (e) {
       emit(FeedbackError("Failed to add booked car: $e"));

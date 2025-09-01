@@ -16,31 +16,30 @@ class FeedbackRepository extends IFeedbackRepository {
     }
   }
 
-  @override
-  List<FeedbackModel> getBookedCars() {
-    return feedbackBox.values
-        .where(
-          (feedback) =>
-              feedback.bookingId != null && feedback.bookingId!.isNotEmpty,
-        )
-        .toList();
+@override
+List<FeedbackModel> getBookedCars() {
+  final allFeedbacks = feedbackBox.values.toList();
+  print("Total feedbacks in box: ${allFeedbacks.length}");
+  
+  for (var feedback in allFeedbacks) {
+    print("Car: ${feedback.carName}, BookingId: ${feedback.bookingId}");
   }
+  
+  final filteredFeedbacks = feedbackBox.values
+    .where((feedback) => 
+      feedback.bookingId != null && feedback.bookingId!.isNotEmpty,
+    )
+    .toList();
+    
+  print("Filtered feedbacks: ${filteredFeedbacks.length}");
+  return filteredFeedbacks;
+}
 
   @override
   FeedbackModel? getCarFeedback(String carId) {
     return feedbackBox.values
         .where((feedback) => feedback.carId == carId)
         .firstOrNull;
-  }
-
-  @override
-  Future<void> addBookedCar(CarModel car) async {
-    final existingFeedback = getCarFeedback(car.id);
-
-    if (existingFeedback == null) {
-      final feedbackModel = FeedbackModel.fromCarModel(car);
-      await feedbackBox.put(car.id, feedbackModel);
-    }
   }
 
   @override
@@ -97,4 +96,26 @@ class FeedbackRepository extends IFeedbackRepository {
   void dispose() {
     feedbackBox.close();
   }
+
+  @override
+Future<void> addBookedCar(CarModel car, String bookingId) async {
+  final existingFeedback = getCarFeedback(car.id);
+  if (existingFeedback == null) {
+    print("Creating new feedback with bookingId: $bookingId"); 
+    
+    final feedbackModel = FeedbackModel(
+      carId: car.id,
+      carName: car.name,
+      carBrand: car.brand, 
+      carImage: car.imageAsset,
+      feedbacks: [],
+      bookingId: bookingId, 
+    );
+    
+    await feedbackBox.put(car.id, feedbackModel);
+    print("Saved feedback model with bookingId: ${feedbackModel.bookingId}");
+  } else {
+    await linkBookingToFeedback(car.id, bookingId);
+  }
+}
 }

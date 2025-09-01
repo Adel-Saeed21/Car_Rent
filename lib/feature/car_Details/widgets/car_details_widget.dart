@@ -64,9 +64,9 @@ class _CarDetailsWidgetState extends State<CarDetailsWidget> {
           widget.feedbackRepository,
           widget.carModel,
         );
-        
+
         _initializeRepositories(cubit);
-        
+
         return cubit;
       },
       child: Expanded(
@@ -131,7 +131,6 @@ class _CarDetailsWidgetState extends State<CarDetailsWidget> {
     }
   }
 
-  // باقي الدوال تبقى كما هي...
   Widget _buildAdditionalFeatures() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -172,73 +171,90 @@ class _CarDetailsWidgetState extends State<CarDetailsWidget> {
     );
   }
 
-  Widget _buildRentButton(BuildContext context) {
-    return BlocListener<CarDetailsCubit, CarDetailsState>(
-      listener: (context, state) {
-        if (state.error != null) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(state.error!),
-              backgroundColor: Colors.red,
-            ),
-          );
-        }
-        if (state.bookingSuccess) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Car booked successfully!'),
-              backgroundColor: Colors.green,
-            ),
-          );
-        }
-      },
-      child: BlocBuilder<CarDetailsCubit, CarDetailsState>(
-        builder: (context, state) {
-          final cubit = context.read<CarDetailsCubit>();
-          final totalPrice = cubit.getCarPrice();
-          final hasSelectedDates = state.startDate != null && state.endDate != null;
-
-          return Material(
-            color: Colors.transparent,
-            child: InkWell(
-              borderRadius: BorderRadius.circular(16.r),
-              onTap: hasSelectedDates && !state.isLoading
-                  ? () {
-                      String? userId = userData!.uid;
-                      cubit.bookCar(userId!);
-                    }
-                  : null,
-              child: Center(
-                child: state.isLoading
-                    ? const CircularProgressIndicator(color: Colors.white)
-                    : Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.car_rental,
-                            color: hasSelectedDates ? Colors.white : Colors.grey.shade400,
-                            size: 20.sp,
-                          ),
-                          horizontalSpace(8.w),
-                          Text(
-                            hasSelectedDates
-                                ? "Rent Now - \$${totalPrice.toStringAsFixed(2)}"
-                                : "Select dates to rent",
-                            style: AppTextStyle.font20WhiteRgular.copyWith(
-                              fontSize: 18.sp,
-                              fontWeight: FontWeightHelper.bold,
-                              color: hasSelectedDates ? Colors.white : Colors.grey.shade400,
-                            ),
-                          ),
-                        ],
-                      ),
+ Widget _buildRentButton(BuildContext context) {
+  return BlocListener<CarDetailsCubit, CarDetailsState>(
+    listener: (context, state) {
+      if (state.error != null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(state.error!),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+      if (state.bookingSuccess) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Car booked successfully!'),
+            backgroundColor: Colors.green,
+          ),
+        );
+      }
+    },
+    child: BlocBuilder<CarDetailsCubit, CarDetailsState>(
+      builder: (context, state) {
+        final cubit = context.read<CarDetailsCubit>();
+        final totalPrice = cubit.getCarPrice();
+        final hasSelectedDates = state.startDate != null && state.endDate != null;
+        
+        return SizedBox(
+          width: double.infinity,
+          height: 56.h, // ارتفاع ثابت للـ button
+          child: ElevatedButton.icon(
+            onPressed: hasSelectedDates && !state.isLoading
+                ? () {
+                    String? userId = userData!.uid;
+                    cubit.bookCar(userId!);
+                  }
+                : null,
+            icon: state.isLoading
+                ? SizedBox(
+                    width: 20.w,
+                    height: 20.h,
+                    child: const CircularProgressIndicator(
+                      color: Colors.white,
+                      strokeWidth: 2,
+                    ),
+                  )
+                : Icon(
+                    Icons.car_rental,
+                    size: 20.sp,
+                  ),
+            label: Text(
+              hasSelectedDates
+                  ? "Rent Now - \$${totalPrice.toStringAsFixed(2)}"
+                  : "Select dates to rent",
+              style: AppTextStyle.font20WhiteRgular.copyWith(
+                fontSize: 18.sp,
+                fontWeight: FontWeightHelper.bold,
+                color: hasSelectedDates ? Colors.white : AppColors.offWhite,
               ),
             ),
-          );
-        },
-      ),
-    );
-  }
+            style: ElevatedButton.styleFrom(
+              backgroundColor: hasSelectedDates 
+                  ? AppColors.lightBlue 
+                  : AppColors.lightBlack,
+              foregroundColor: hasSelectedDates 
+                  ? Colors.white 
+                  : AppColors.offWhite,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16.r),
+              ),
+              elevation: 0, // بدون shadow للتصميم الحديث
+              shadowColor: Colors.transparent,
+              side: hasSelectedDates 
+                  ? null 
+                  : BorderSide(
+                      color: Colors.cyan.withOpacity(0.3),
+                      width: 1,
+                    ),
+            ),
+          ),
+        );
+      },
+    ),
+  );
+}
 
   Widget _buildTimeBook() {
     return BlocBuilder<CarDetailsCubit, CarDetailsState>(

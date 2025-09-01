@@ -30,7 +30,6 @@ class HomeCategoryCubit extends Cubit<HomeCategoryState> {
     return 'Mercedes';
   }
 
-  // دالة لجلب السيارات مع حفظ حالة الـ favorites
   List<CarModel> _getCarsWithFavoriteStatus(String categoryName) {
     final cars = getCarsByBrand(categoryName);
     return cars.map((car) {
@@ -47,13 +46,10 @@ class HomeCategoryCubit extends Cubit<HomeCategoryState> {
       // Emit loading state
       emit(HomeCategoryLoading(selectedCategory: categoryName));
 
-      // Simulate API call delay
       await _loadCarsForCategory(categoryName);
 
-      // Get cars for the selected category with preserved favorite status
       _currentCars = _getCarsWithFavoriteStatus(categoryName);
 
-      // Emit success state
       emit(
         HomeCategoryChanged(
           selectedCategory: categoryName,
@@ -62,7 +58,6 @@ class HomeCategoryCubit extends Cubit<HomeCategoryState> {
         ),
       );
     } catch (e) {
-      // Emit error state
       emit(
         HomeCategoryError(
           selectedCategory: currentCat,
@@ -95,15 +90,12 @@ class HomeCategoryCubit extends Cubit<HomeCategoryState> {
     emit(const HomeCategoryInitial());
   }
 
-  // تحديث حالة الـ favorite للسيارة
   void toggleCarFavorite(String carId) {
     final carIndex = _currentCars.indexWhere((car) => car.id == carId);
     if (carIndex != -1) {
-      // تحديث حالة الـ favorite في الخريطة العامة
       final currentFavoriteStatus = _favoriteStatus[carId] ?? false;
       _favoriteStatus[carId] = !currentFavoriteStatus;
 
-      // تحديث السيارة في القائمة الحالية
       final updatedCar = _currentCars[carIndex].copyWith(
         isFavorite: _favoriteStatus[carId],
       );

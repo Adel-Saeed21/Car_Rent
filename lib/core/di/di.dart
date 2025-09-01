@@ -41,5 +41,14 @@ Future<void> setUpDI() async {
 
   //reset password cubit and repo
   getit.registerLazySingleton<IResetPasswordRepo>(() => ResetPasswordRepo());
-  getit.registerFactory(() => ResetPasswordCubit(getit()));
+  getit.registerFactory(() => ResetPasswordCubit(getit<IResetPasswordRepo>()));
+
+  //  getit.registerLazySingleton<IFavouriteRepo>(
+  //   () => FavouriteRepositoryImpl(),
+  // );
+  
+  // // Register Cubit Factory
+  // getit.registerFactory<FavouriteCubit>(
+  //   () => FavouriteCubit(getit<FavouriteRepositoryImpl>()),
+  // );
 }

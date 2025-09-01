@@ -96,7 +96,7 @@ class _LogInFormState extends State<LogInForm> {
             listener: (context, state) {
               if (state is LoginSuccess) {
                 showToast("Login succesffuly");
-                context.pushReplacmentNamed(Routes.homeScreen);
+                context.pushReplacmentNamed(Routes.navigationScreen);
               } else if (state is LoginError) {
                 showToast(state.errorMessage);
               }

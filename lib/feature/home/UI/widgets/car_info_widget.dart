@@ -89,10 +89,8 @@ class CarInfoWidget extends StatelessWidget {
                       child: IconButton(
                         onPressed: () {
                           final wasFavorite = currentCar.isFavorite;
-
-                          context.read<HomeCategoryCubit>().toggleCarFavorite(
-                            currentCar.id,
-                          );
+              
+                        
 
                           ScaffoldMessenger.of(context).hideCurrentSnackBar();
                           ScaffoldMessenger.of(context).showSnackBar(

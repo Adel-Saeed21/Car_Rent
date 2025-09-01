@@ -85,7 +85,7 @@ class CarDetailsCubit extends Cubit<CarDetailsState> {
       
       if (existingFeedback == null) {
         print("Adding car to feedback list...");
-        await feedbackRepository.addBookedCar(carModel);
+        await feedbackRepository.addBookedCar(carModel,bookingId);
       } else {
         print("Car already exists in feedback list");
       }

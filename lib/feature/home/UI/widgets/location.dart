@@ -22,68 +22,109 @@ class _LocationWidgetState extends State<LocationWidget> {
   String currentCity = "Loading...";
   bool isLoading = true;
   UserData? userData;
+  
+  bool _isDisposed = false;
 
   @override
   void initState() {
     super.initState();
-    getCurrentLocation();
-    loadUserData();
+    _initializeWidget();
   }
 
-  Future<void> loadUserData() async {
-    var box = await Hive.openBox<UserData>('UserDataBox');
-    setState(() {
-      userData = box.get('currentUser');
-    });
+  Future<void> _initializeWidget() async {
+    await Future.wait([
+      _loadUserData(),
+      _getCurrentLocation(),
+    ]);
   }
 
-  Future<void> getCurrentLocation() async {
+  Future<void> _loadUserData() async {
     try {
-      PermissionStatus permission = await Permission.location.request();
+      final box = await Hive.openBox<UserData>('UserDataBox');
+      
+      // التحقق من mounted قبل setState
+      if (mounted && !_isDisposed) {
+        setState(() {
+          userData = box.get('currentUser');
+        });
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print("Error loading user data: $e");
+      }
+    }
+  }
 
+  Future<void> _getCurrentLocation() async {
+    try {
+      // طلب الإذن
+      final permission = await Permission.location.request();
+      
+      if (!mounted || _isDisposed) return; 
+      
       if (permission.isGranted) {
-        bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+        // التحقق من خدمة الموقع
+        final serviceEnabled = await Geolocator.isLocationServiceEnabled();
+        
+        if (!mounted || _isDisposed) return;
+        
         if (!serviceEnabled) {
-          setState(() {
-            currentCity = "Location service disabled";
-            isLoading = false;
-          });
+          _updateLocationState("Location service disabled");
           return;
         }
 
-        Position position = await Geolocator.getCurrentPosition(
-          // ignore: deprecated_member_use
+        final position = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.medium,
+          timeLimit: const Duration(seconds: 10), 
         );
 
-        List<Placemark> placemarks = await placemarkFromCoordinates(
+        if (!mounted || _isDisposed) return;
+
+        // تحويل الإحداثيات لأسماء الأماكن
+        final placemarks = await placemarkFromCoordinates(
           position.latitude,
           position.longitude,
         );
 
+        if (!mounted || _isDisposed) return;
+
         if (placemarks.isNotEmpty) {
-          Placemark place = placemarks[0];
-          setState(() {
-            currentCity =
-                place.locality ?? place.administrativeArea ?? "Unknown City";
-            isLoading = false;
-          });
+          final place = placemarks[0];
+          final cityName = place.locality ?? 
+                          place.administrativeArea ?? 
+                          place.subAdministrativeArea ?? 
+                          "Unknown City";
+          _updateLocationState(cityName);
+        } else {
+          _updateLocationState("Unknown location");
         }
       } else {
-        setState(() {
-          currentCity = "Location permission denied";
-          isLoading = false;
-        });
+        _updateLocationState("Location permission denied");
       }
     } catch (e) {
-      setState(() {
-        currentCity = "Error getting location";
-        isLoading = false;
-      });
+      if (!mounted || _isDisposed) return;
+      
+      _updateLocationState("Error getting location");
+      
       if (kDebugMode) {
         print("Location error: $e");
       }
     }
+  }
+
+  void _updateLocationState(String city) {
+    if (mounted && !_isDisposed) {
+      setState(() {
+        currentCity = city;
+        isLoading = false;
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _isDisposed = true;
+    super.dispose();
   }
 
   @override
@@ -92,40 +133,85 @@ class _LocationWidgetState extends State<LocationWidget> {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          // "Hi, ${userData?.name ?? ""}",
-          "Hi, Adool",
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeightHelper.regular,
-            fontSize: 17.sp,
-          ),
-        ),
+        _buildGreeting(),
         verticalSpace(5.h),
-        Row(
-          children: [
-            const Icon(
-              FontAwesomeIcons.locationPinLock,
-              color: Colors.white70,
-              size: 16,
-            ),
-            horizontalSpace(2.w),
-            isLoading
-                ? const SizedBox(
-                    width: 12,
-                    height: 12,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white70),
-                    ),
-                  )
-                : Text(
-                    currentCity,
-                    style: const TextStyle(color: Colors.white70, fontSize: 14),
-                  ),
-          ],
-        ),
+        _buildLocationRow(),
       ],
     );
+  }
+
+  Widget _buildGreeting() {
+    return Text(
+      "Hi, ${userData?.name ?? "Guest"}",
+      style: TextStyle(
+        color: Colors.white,
+        fontWeight: FontWeightHelper.regular,
+        fontSize: 17.sp,
+      ),
+    );
+  }
+
+  Widget _buildLocationRow() {
+    return Row(
+      children: [
+        Icon(
+          FontAwesomeIcons.locationPinLock,
+          color: Colors.white70,
+          size: 16.sp,
+        ),
+        horizontalSpace(6.w),
+        _buildLocationContent(),
+      ],
+    );
+  }
+
+  Widget _buildLocationContent() {
+    if (isLoading) {
+      return Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(
+            width: 12.w,
+            height: 12.h,
+            child: const CircularProgressIndicator(
+              strokeWidth: 2,
+              valueColor: AlwaysStoppedAnimation<Color>(Colors.white70),
+            ),
+          ),
+          horizontalSpace(8.w),
+          Text(
+            "Getting location...",
+            style: TextStyle(
+              color: Colors.white70,
+              fontSize: 14.sp,
+            ),
+          ),
+        ],
+      );
+    }
+
+    return Flexible(
+      child: Text(
+        currentCity,
+        style: TextStyle(
+          color: Colors.white70,
+          fontSize: 14.sp,
+        ),
+        overflow: TextOverflow.ellipsis,
+      ),
+    );
+  }
+}
+
+// ignore: library_private_types_in_public_api
+extension LocationWidgetExtension on _LocationWidgetState {
+  Future<void> retryLocation() async {
+    if (mounted && !_isDisposed) {
+      setState(() {
+        isLoading = true;
+        currentCity = "Loading...";
+      });
+      await _getCurrentLocation();
+    }
   }
 }

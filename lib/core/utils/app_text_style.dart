@@ -28,4 +28,10 @@ class AppTextStyle {
     fontSize: 20.sp,
     color: Colors.white,
   );
+
+  static TextStyle font16LightBlueRegular=TextStyle(
+      fontWeight: FontWeightHelper.regular,
+    fontSize: 16.sp,
+    color: AppColors.lightBlue,
+  );
 }
