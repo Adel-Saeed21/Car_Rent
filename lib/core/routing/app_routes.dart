@@ -2,6 +2,7 @@ import 'package:carrent/core/di/di.dart';
 import 'package:carrent/core/routing/routes.dart';
 import 'package:carrent/feature/Booking/data/repo/booking_rep.dart';
 import 'package:carrent/feature/FeedBack/data/Repos/feedback_repo.dart';
+import 'package:carrent/feature/Profile/profile_screen.dart';
 import 'package:carrent/feature/auth/forget_password/logic/reset_password_cubit.dart';
 import 'package:carrent/feature/auth/forget_password/ui/reset_password.dart';
 import 'package:carrent/feature/car_Details/car_details_screen.dart';
@@ -66,6 +67,9 @@ class AppRoute {
             child: const ResetPassword(),
           ),
         );
+
+      case Routes.profile:
+        return MaterialPageRoute(builder: (_) => const ProfileScreen());
 
       default:
         return MaterialPageRoute(builder: (_) => const Scaffold());

@@ -19,7 +19,7 @@ class UserData {
   final String? phone;
 
   @HiveField(4)
-  final List<String>? favouriteCars;
+  final List<String>? favouriteCarsId;
 
   @HiveField(5)
   final String? profileImagePath;
@@ -29,7 +29,7 @@ class UserData {
     this.email,
     this.name,
     this.phone,
-    this.favouriteCars,
+    this.favouriteCarsId,
     this.profileImagePath,
   });
 

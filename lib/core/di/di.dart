@@ -10,19 +10,21 @@ import 'package:carrent/feature/auth/log_in/logic/log_in_cubit.dart';
 import 'package:carrent/feature/auth/sign_up/logic/sign_up_cubit.dart';
 import 'package:carrent/feature/auth/sign_up/repo/i_sign_up_repo.dart';
 import 'package:carrent/feature/auth/sign_up/repo/sign_up_repo_implementation.dart';
+import 'package:carrent/feature/favourite_items/data/repo/favourite_repo_imp.dart';
+import 'package:carrent/feature/favourite_items/data/repo/i_favourite_repo.dart';
+import 'package:carrent/feature/favourite_items/logic/favourite_cubit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
 
 final getit = GetIt.instance;
 
 Future<void> setUpDI() async {
+
   // log in cubit
   getit.registerFactory(() => LogInCubit(getit()));
   getit.registerLazySingleton<ILoginRepo>(
     () => LoginRepoImplementation(FirebaseAuth.instance),
   );
-
-  // signup cubit
   getit.registerLazySingleton<ISignUpRepo>(() => SignUpRepoImplementation());
   getit.registerFactory(() => SignUpCubit(getit()));
 
@@ -39,16 +41,17 @@ Future<void> setUpDI() async {
     return FeedbackCubit(repo);
   });
 
+
   //reset password cubit and repo
   getit.registerLazySingleton<IResetPasswordRepo>(() => ResetPasswordRepo());
   getit.registerFactory(() => ResetPasswordCubit(getit<IResetPasswordRepo>()));
 
-  //  getit.registerLazySingleton<IFavouriteRepo>(
-  //   () => FavouriteRepositoryImpl(),
-  // );
+   getit.registerLazySingleton<IFavouriteRepo>(
+    () => FavouriteRepository(),
+  );
   
-  // // Register Cubit Factory
-  // getit.registerFactory<FavouriteCubit>(
-  //   () => FavouriteCubit(getit<FavouriteRepositoryImpl>()),
-  // );
+  // Register Cubit Factory
+  getit.registerFactory<FavouriteCubit>(
+    () => FavouriteCubit(getit<FavouriteRepository>()),
+  );
 }

@@ -42,7 +42,6 @@ class _LocationWidgetState extends State<LocationWidget> {
     try {
       final box = await Hive.openBox<UserData>('UserDataBox');
       
-      // التحقق من mounted قبل setState
       if (mounted && !_isDisposed) {
         setState(() {
           userData = box.get('currentUser');
@@ -57,13 +56,11 @@ class _LocationWidgetState extends State<LocationWidget> {
 
   Future<void> _getCurrentLocation() async {
     try {
-      // طلب الإذن
       final permission = await Permission.location.request();
       
       if (!mounted || _isDisposed) return; 
       
       if (permission.isGranted) {
-        // التحقق من خدمة الموقع
         final serviceEnabled = await Geolocator.isLocationServiceEnabled();
         
         if (!mounted || _isDisposed) return;
@@ -80,7 +77,6 @@ class _LocationWidgetState extends State<LocationWidget> {
 
         if (!mounted || _isDisposed) return;
 
-        // تحويل الإحداثيات لأسماء الأماكن
         final placemarks = await placemarkFromCoordinates(
           position.latitude,
           position.longitude,

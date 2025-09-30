@@ -1,6 +1,7 @@
 import 'package:carrent/core/utils/app_colors.dart';
 import 'package:carrent/feature/FeedBack/UI/feedback_screen.dart';
 import 'package:carrent/feature/Profile/profile_screen.dart';
+import 'package:carrent/feature/favourite_items/UI/favourite_screen.dart';
 import 'package:carrent/feature/home/UI/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -18,7 +19,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
 
   List<Widget> screens = [
     const Home(),
-    const FavoritesScreen(),
+    const FavouriteScreen(),
     const FeedbackScreen(),
     const ProfileScreen(),
   ];
@@ -99,25 +100,25 @@ class _NavigationScreenState extends State<NavigationScreen> {
   }
 }
 
-class FavoritesScreen extends StatelessWidget {
-  const FavoritesScreen({super.key});
+// class FavoritesScreen extends StatelessWidget {
+//   const FavoritesScreen({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Favorites'),
-        backgroundColor: Colors.red,
-      ),
-      body: const Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.favorite, size: 100, color: Colors.red),
-            Text('Favorites Screen', style: TextStyle(fontSize: 24)),
-          ],
-        ),
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: const Text('Favorites'),
+//         backgroundColor: Colors.red,
+//       ),
+//       body: const Center(
+//         child: Column(
+//           mainAxisAlignment: MainAxisAlignment.center,
+//           children: [
+//             Icon(Icons.favorite, size: 100, color: Colors.red),
+//             Text('Favorites Screen', style: TextStyle(fontSize: 24)),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }

@@ -12,7 +12,7 @@ class UserDataAdapter extends TypeAdapter<UserData> {
       email: reader.readString(),
       name: reader.readString(),
       phone: reader.readString(),
-      favouriteCars: reader.readList().cast<String>(),
+      favouriteCarsId: reader.readList().cast<String>(),
       profileImagePath: reader.readString(),
     );
   }
@@ -23,7 +23,7 @@ class UserDataAdapter extends TypeAdapter<UserData> {
     writer.writeString(obj.email ?? '');
     writer.writeString(obj.name ?? '');
     writer.writeString(obj.phone ?? '');
-    writer.writeList(obj.favouriteCars ?? []);
+    writer.writeList(obj.favouriteCarsId ?? []);
     writer.writeString(obj.profileImagePath ?? '');
   }
 }
