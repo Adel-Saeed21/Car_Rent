@@ -1,76 +1,11 @@
-// ignore_for_file: deprecated_member_use
-
 import 'package:carrent/core/helpers/spacing.dart';
 import 'package:carrent/core/utils/app_colors.dart';
 import 'package:carrent/core/utils/app_text_style.dart';
-import 'package:carrent/feature/FeedBack/Logic/feedback_cubit.dart';
-import 'package:carrent/feature/FeedBack/Logic/feedback_state.dart';
-import 'package:carrent/feature/FeedBack/UI/widgets/feedback_car_card.dart';
-import 'package:carrent/feature/FeedBack/data/feedback_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:carrent/core/di/di.dart';
 
-
-class FeedbackScreen extends StatelessWidget {
-  const FeedbackScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider<FeedbackCubit>(
-      create: (context) => getit<FeedbackCubit>()..loadBookedCars(),
-      child: const FeedbackView(),
-    );
-  }
-}
-
-class FeedbackView extends StatelessWidget {
-  const FeedbackView({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.lightBlack,
-      appBar: AppBar(
-        backgroundColor: AppColors.lightBlack,
-        elevation: 0,
-        title: Text(
-          "Feedback",
-          style: AppTextStyle.font20WhiteRgular.copyWith(
-            fontSize: 20.sp,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        centerTitle: false,
-      ),
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.w),
-          child: BlocBuilder<FeedbackCubit, FeedbackState>(
-            builder: (context, state) {
-              return switch (state) {
-                FeedbackInitial() => const _LoadingWidget(),
-                FeedbackLoading() => const _LoadingWidget(),
-                FeedbackError() => _ErrorWidget(
-                    error: state.error,
-                    onRetry: () => context.read<FeedbackCubit>().loadBookedCars(),
-                  ),
-                BookedCarsLoaded() => state.bookedCars.isEmpty
-                    ? const _EmptyStateWidget()
-                    : _BookedCarsListWidget(bookedCars: state.bookedCars),
-                FeedbackState() =>const _LoadingWidget(),
-              };
-            },
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _LoadingWidget extends StatelessWidget {
-  const _LoadingWidget();
+class LoadingWidget extends StatelessWidget {
+  const LoadingWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -83,11 +18,11 @@ class _LoadingWidget extends StatelessWidget {
   }
 }
 
-class _ErrorWidget extends StatelessWidget {
+class ErrorWidget extends StatelessWidget {
   final String error;
   final VoidCallback onRetry;
 
-  const _ErrorWidget({
+  const ErrorWidget({super.key, 
     required this.error,
     required this.onRetry,
   });
@@ -143,8 +78,8 @@ class _ErrorWidget extends StatelessWidget {
   }
 }
 
-class _EmptyStateWidget extends StatelessWidget {
-  const _EmptyStateWidget();
+class EmptyStateWidget extends StatelessWidget {
+  const EmptyStateWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -186,26 +121,3 @@ class _EmptyStateWidget extends StatelessWidget {
     );
   }
 }
-
-class _BookedCarsListWidget extends StatelessWidget {
-  final List<FeedbackModel> bookedCars;
-
-  const _BookedCarsListWidget({required this.bookedCars});
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.separated(
-      padding: EdgeInsets.symmetric(vertical: 16.h),
-      itemCount: bookedCars.length,
-      separatorBuilder: (context, index) => verticalSpace(16.h),
-      itemBuilder: (context, index) {
-        return FeedbackCarCard(
-          feedbackModel: bookedCars[index],
-        );
-      },
-    );
-  }
-}
-
-
-

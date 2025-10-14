@@ -85,7 +85,6 @@ class _CarDetailsWidgetState extends State<CarDetailsWidget> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Car Title and Description
                 Text(
                   "Tesla Model",
                   style: AppTextStyle.font20WhiteRgular.copyWith(
@@ -199,7 +198,7 @@ class _CarDetailsWidgetState extends State<CarDetailsWidget> {
         
         return SizedBox(
           width: double.infinity,
-          height: 56.h, // ارتفاع ثابت للـ button
+          height: 56.h, 
           child: ElevatedButton.icon(
             onPressed: hasSelectedDates && !state.isLoading
                 ? () {

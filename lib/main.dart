@@ -43,7 +43,7 @@ void main() async {
     CarRentApp(
       appRouter: AppRoute(),
       // initialRoute: loggedIn ? Routes.homeScreen : Routes.onBoardingScreen,
-      initialRoute: Routes.profile,
+      initialRoute: Routes.startScreen,
     ),
   );
 }
