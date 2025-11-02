@@ -1,7 +1,6 @@
 import 'package:carrent/core/utils/app_colors.dart';
 import 'package:carrent/feature/FeedBack/UI/feedback_screen.dart';
 import 'package:carrent/feature/Profile/profile_screen.dart';
-import 'package:carrent/feature/favourite_items/UI/favourite_screen.dart';
 import 'package:carrent/feature/home/UI/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -19,7 +18,6 @@ class _NavigationScreenState extends State<NavigationScreen> {
 
   List<Widget> screens = [
     const Home(),
-    const FavouriteScreen(),
     const FeedbackScreen(),
     const ProfileScreen(),
   ];

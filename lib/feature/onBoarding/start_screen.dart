@@ -47,7 +47,7 @@ class StartScreen extends StatelessWidget {
                       },
                       backgroundColor: AppColors.lightBlue,
                       radius: 25.r,
-                      child: Text(
+                      child: const Text(
                         "Sign up",
                         style: TextStyle(color: Colors.white),
                       ),

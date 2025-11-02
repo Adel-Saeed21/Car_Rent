@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:carrent/core/helpers/spacing.dart';
 import 'package:carrent/core/theming/font_weight_helper.dart';
 import 'package:carrent/feature/auth/sign_up/data/user_data.dart';
@@ -22,7 +24,7 @@ class _LocationWidgetState extends State<LocationWidget> {
   String currentCity = "Loading...";
   bool isLoading = true;
   UserData? userData;
-  
+
   bool _isDisposed = false;
 
   @override
@@ -32,39 +34,42 @@ class _LocationWidgetState extends State<LocationWidget> {
   }
 
   Future<void> _initializeWidget() async {
-    await Future.wait([
-      _loadUserData(),
-      _getCurrentLocation(),
-    ]);
+    await Future.wait([_loadUserData(), _getCurrentLocation()]);
   }
 
   Future<void> _loadUserData() async {
-    try {
-      final box = await Hive.openBox<UserData>('UserDataBox');
-      
-      if (mounted && !_isDisposed) {
-        setState(() {
-          userData = box.get('currentUser');
-        });
-      }
-    } catch (e) {
-      if (kDebugMode) {
-        print("Error loading user data: $e");
-      }
+  try {
+    final box = await Hive.openBox<UserData>('userDataBox');
+    final loadedUser = box.get('currentUser');
+
+    if (mounted && !_isDisposed) {
+      setState(() {
+        userData = loadedUser;
+      });
+    }
+
+    if (kDebugMode) {
+      print(" Loaded user from Hive: ${loadedUser?.toJson()}");
+    }
+  } catch (e) {
+    if (kDebugMode) {
+      print("Error loading user data: $e");
     }
   }
+}
+
 
   Future<void> _getCurrentLocation() async {
     try {
       final permission = await Permission.location.request();
-      
-      if (!mounted || _isDisposed) return; 
-      
+
+      if (!mounted || _isDisposed) return;
+
       if (permission.isGranted) {
         final serviceEnabled = await Geolocator.isLocationServiceEnabled();
-        
+
         if (!mounted || _isDisposed) return;
-        
+
         if (!serviceEnabled) {
           _updateLocationState("Location service disabled");
           return;
@@ -72,7 +77,7 @@ class _LocationWidgetState extends State<LocationWidget> {
 
         final position = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.medium,
-          timeLimit: const Duration(seconds: 10), 
+          timeLimit: const Duration(seconds: 10),
         );
 
         if (!mounted || _isDisposed) return;
@@ -86,10 +91,11 @@ class _LocationWidgetState extends State<LocationWidget> {
 
         if (placemarks.isNotEmpty) {
           final place = placemarks[0];
-          final cityName = place.locality ?? 
-                          place.administrativeArea ?? 
-                          place.subAdministrativeArea ?? 
-                          "Unknown City";
+          final cityName =
+              place.locality ??
+              place.administrativeArea ??
+              place.subAdministrativeArea ??
+              "Unknown City";
           _updateLocationState(cityName);
         } else {
           _updateLocationState("Unknown location");
@@ -99,9 +105,9 @@ class _LocationWidgetState extends State<LocationWidget> {
       }
     } catch (e) {
       if (!mounted || _isDisposed) return;
-      
+
       _updateLocationState("Error getting location");
-      
+
       if (kDebugMode) {
         print("Location error: $e");
       }
@@ -128,11 +134,7 @@ class _LocationWidgetState extends State<LocationWidget> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _buildGreeting(),
-        verticalSpace(5.h),
-        _buildLocationRow(),
-      ],
+      children: [_buildGreeting(), verticalSpace(5.h), _buildLocationRow()],
     );
   }
 
@@ -177,10 +179,7 @@ class _LocationWidgetState extends State<LocationWidget> {
           horizontalSpace(8.w),
           Text(
             "Getting location...",
-            style: TextStyle(
-              color: Colors.white70,
-              fontSize: 14.sp,
-            ),
+            style: TextStyle(color: Colors.white70, fontSize: 14.sp),
           ),
         ],
       );
@@ -189,10 +188,7 @@ class _LocationWidgetState extends State<LocationWidget> {
     return Flexible(
       child: Text(
         currentCity,
-        style: TextStyle(
-          color: Colors.white70,
-          fontSize: 14.sp,
-        ),
+        style: TextStyle(color: Colors.white70, fontSize: 14.sp),
         overflow: TextOverflow.ellipsis,
       ),
     );

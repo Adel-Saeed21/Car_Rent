@@ -71,10 +71,7 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
       backgroundColor: AppColors.lightBlack,
       body: Column(
         children: [
-          // Custom AppBar
           const CarDetailsAppBar(),
-
-          // Car Showcase Widget
           Expanded(
             flex: 1,
             child: Container(
