@@ -20,7 +20,7 @@ class CarRentApp extends StatelessWidget {
       splitScreenMode: true,
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        showPerformanceOverlay: true,
+
         title: 'Car Rent App',
         initialRoute: initialRoute,
         onGenerateRoute: appRouter.generateRoute,

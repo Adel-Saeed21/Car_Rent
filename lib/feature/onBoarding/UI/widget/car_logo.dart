@@ -47,12 +47,11 @@ class CarvOnLogo extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 4),
-        ?display
-            ? const Text(
-                'Redefine Your Ride with CarvaOn',
-                style: TextStyle(fontSize: 12, color: Colors.white70),
-              )
-            : null,
+        if (display)
+          const Text(
+            'Redefine Your Ride with CarvOn',
+            style: TextStyle(fontSize: 12, color: Colors.white70),
+          ),
       ],
     );
   }

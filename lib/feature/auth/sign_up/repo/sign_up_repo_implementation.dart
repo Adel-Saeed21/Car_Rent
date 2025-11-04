@@ -18,6 +18,7 @@ class SignUpRepoImplementation extends ISignUpRepo {
   @override
   Future<void> saveUserToHive(UserData user) async {
     final box = Hive.box<UserData>('userDataBox');
+    print(user.email);
     await box.put('currentUser', user);
   }
 
@@ -35,7 +36,9 @@ class SignUpRepoImplementation extends ISignUpRepo {
     final uid = userCred.user!.uid;
     final user = UserData(uid: uid, email: email, name: name, phone: phone);
     await firestore.collection("users").doc(uid).set(user.toJson());
+    print("user uploadded✅✅✅");
     await saveUserToHive(user);
+    print("User saved in HiVE✅✅✅✅✅");
     return user;
   }
 }

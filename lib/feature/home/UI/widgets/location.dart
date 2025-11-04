@@ -38,26 +38,25 @@ class _LocationWidgetState extends State<LocationWidget> {
   }
 
   Future<void> _loadUserData() async {
-  try {
-    final box = await Hive.openBox<UserData>('userDataBox');
-    final loadedUser = box.get('currentUser');
+    try {
+      final box = Hive.box<UserData>('userDataBox'); 
+      final loadedUser = box.get('currentUser');
 
-    if (mounted && !_isDisposed) {
-      setState(() {
-        userData = loadedUser;
-      });
-    }
+      if (mounted && !_isDisposed) {
+        setState(() {
+          userData = loadedUser;
+        });
+      }
 
-    if (kDebugMode) {
-      print(" Loaded user from Hive: ${loadedUser?.toJson()}");
-    }
-  } catch (e) {
-    if (kDebugMode) {
+      if (loadedUser != null) {
+        print("${loadedUser.name} ✅✅✅✅✅");
+      } else {
+        print("No user data found! ❌");
+      }
+    } catch (e) {
       print("Error loading user data: $e");
     }
   }
-}
-
 
   Future<void> _getCurrentLocation() async {
     try {
