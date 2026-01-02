@@ -24,7 +24,7 @@ abstract class SignupState<T> {
   });
 }
 
-// ---------------------------- Initial ----------------------------
+ 
 
 class SignupInitial<T> extends SignupState<T> {
   const SignupInitial();
@@ -70,7 +70,7 @@ class SignupInitial<T> extends SignupState<T> {
   int get hashCode => runtimeType.hashCode;
 }
 
-// ---------------------------- Loading ----------------------------
+ 
 
 class SignupLoading<T> extends SignupState<T> {
   const SignupLoading();
@@ -116,7 +116,7 @@ class SignupLoading<T> extends SignupState<T> {
   int get hashCode => runtimeType.hashCode;
 }
 
-// ---------------------------- Success ----------------------------
+ 
 
 class SignupSuccess<T> extends SignupState<T> {
   final T data;
@@ -169,7 +169,7 @@ class SignupSuccess<T> extends SignupState<T> {
   int get hashCode => data.hashCode ^ runtimeType.hashCode;
 }
 
-// ---------------------------- Error ----------------------------
+ 
 
 class SignupError<T> extends SignupState<T> {
   final String errorMessage;

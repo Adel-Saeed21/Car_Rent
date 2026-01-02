@@ -23,7 +23,7 @@ class SocialLoginButtons extends StatelessWidget {
         ),
         verticalSpace(20.h),
 
-        // Google Button
+         
         SocialButton(
           text: "Sign up with Google",
           icon: Image.asset("assets/icons/google.png", height: 20, width: 20),
@@ -31,7 +31,7 @@ class SocialLoginButtons extends StatelessWidget {
         ),
         verticalSpace(12.h),
 
-        // Apple Button
+         
         SocialButton(
           text: "Sign up with FaceBook",
           icon: Image.asset("assets/icons/faceBook.png", height: 20, width: 20),

@@ -25,9 +25,9 @@ class SignUpCubit extends Cubit<SignupState> {
   Future<void> signUp() async {
     emit(const SignupLoading());
     try {
-      print("📝 Name from controller: '${nameController.text}'");
-      print("📝 Email from controller: '${emailController.text}'");
-      print("📝 Phone from controller: '${phoneController.text}'");
+      
+      
+      
 
       final user = await repo.signUp(
         email: emailController.text,
@@ -36,10 +36,10 @@ class SignUpCubit extends Cubit<SignupState> {
         phone: phoneController.text,
       );
 
-      print("✅ User returned from repo: ${user.toJson()}");
+      
       emit(SignupSuccess(user));
     } catch (e) {
-      print("❌ SignUp Error: $e");
+      
       emit(SignupError(errorMessage: e.toString()));
     }
   }

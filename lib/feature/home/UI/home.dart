@@ -8,6 +8,10 @@ import 'package:carrent/feature/home/UI/widgets/search_content.dart';
 import 'package:carrent/feature/home/UI/widgets/search_text_field.dart';
 import 'package:carrent/feature/home/data/car_model.dart';
 import 'package:carrent/feature/home/logic/home_cubit.dart';
+import 'package:carrent/feature/car/domain/entities/car_entity.dart';
+import 'package:carrent/feature/favorite/presentation/cubit/favorite_cubit.dart';
+import 'package:carrent/core/di/di.dart';
+import 'package:carrent/core/functions/is_user_login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,7 +30,7 @@ class _HomeState extends State<Home> {
 
   bool isSearchMode = false;
   bool isSearchLoading = false;
-  List<CarModel> searchResults = [];
+  List<CarEntity> searchResults = [];
   String _lastSearchQuery = '';
 
   @override
@@ -77,7 +81,7 @@ class _HomeState extends State<Home> {
 
     if (!mounted) return;
 
-    final results = <CarModel>[];
+    final results = <CarEntity>[];
 
     for (String brand in carsData.keys) {
       final brandCars = getCarsByBrand(brand);
@@ -123,9 +127,13 @@ class _HomeState extends State<Home> {
     final screenWidth = MediaQuery.of(context).size.width;
     final isSmallScreen = screenWidth < 360;
 
+    final userId = getUserEmail() ?? 'default_user';
+
     return BlocProvider(
       create: (context) => HomeCategoryCubit(),
-      child: Scaffold(
+      child: BlocProvider(
+        create: (context) => getit<FavoriteCubit>()..loadFavorites(userId),
+        child: Scaffold(
         backgroundColor: AppColors.lightBlack,
         body: SafeArea(
           child: Column(
@@ -159,6 +167,7 @@ class _HomeState extends State<Home> {
               ),
             ],
           ),
+        ),
         ),
       ),
     );

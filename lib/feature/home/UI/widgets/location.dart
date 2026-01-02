@@ -1,5 +1,3 @@
-// ignore_for_file: deprecated_member_use
-
 import 'package:carrent/core/helpers/spacing.dart';
 import 'package:carrent/core/theming/font_weight_helper.dart';
 import 'package:carrent/feature/auth/sign_up/data/user_data.dart';
@@ -16,11 +14,10 @@ class LocationWidget extends StatefulWidget {
   const LocationWidget({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
-  _LocationWidgetState createState() => _LocationWidgetState();
+  LocationWidgetState createState() => LocationWidgetState();
 }
 
-class _LocationWidgetState extends State<LocationWidget> {
+class LocationWidgetState extends State<LocationWidget> {
   String currentCity = "Loading...";
   bool isLoading = true;
   UserData? userData;
@@ -39,7 +36,7 @@ class _LocationWidgetState extends State<LocationWidget> {
 
   Future<void> _loadUserData() async {
     try {
-      final box = Hive.box<UserData>('userDataBox'); 
+      final box = Hive.box<UserData>('userDataBox');
       final loadedUser = box.get('currentUser');
 
       if (mounted && !_isDisposed) {
@@ -49,13 +46,9 @@ class _LocationWidgetState extends State<LocationWidget> {
       }
 
       if (loadedUser != null) {
-        print("${loadedUser.name} ✅✅✅✅✅");
-      } else {
-        print("No user data found! ❌");
-      }
-    } catch (e) {
-      print("Error loading user data: $e");
-    }
+      } else {}
+      // ignore: empty_catches
+    } catch (e) {}
   }
 
   Future<void> _getCurrentLocation() async {
@@ -107,9 +100,7 @@ class _LocationWidgetState extends State<LocationWidget> {
 
       _updateLocationState("Error getting location");
 
-      if (kDebugMode) {
-        print("Location error: $e");
-      }
+      if (kDebugMode) {}
     }
   }
 
@@ -194,10 +185,10 @@ class _LocationWidgetState extends State<LocationWidget> {
   }
 }
 
-// ignore: library_private_types_in_public_api
-extension LocationWidgetExtension on _LocationWidgetState {
+extension LocationWidgetExtension on LocationWidgetState {
   Future<void> retryLocation() async {
     if (mounted && !_isDisposed) {
+      // ignore: invalid_use_of_protected_member
       setState(() {
         isLoading = true;
         currentCity = "Loading...";

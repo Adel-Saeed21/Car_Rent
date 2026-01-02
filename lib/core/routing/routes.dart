@@ -8,4 +8,8 @@ class Routes {
   static const String carDetails = '/carDetailsScreen';
   static const String resetPassword = '/ResetPasswordScreen';
   static const String profile = '/profileScreen';
+  
+   
+  static const String favorite = '/favoriteScreen';
+  static const String feedback = '/feedbackScreen';
 }

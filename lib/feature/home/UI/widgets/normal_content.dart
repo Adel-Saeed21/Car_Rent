@@ -5,6 +5,7 @@ import 'package:carrent/feature/home/UI/widgets/car_info_widget.dart';
 import 'package:carrent/feature/home/UI/widgets/category_logo.dart';
 import 'package:carrent/feature/home/data/category_logo_model.dart';
 import 'package:carrent/feature/home/data/car_model.dart';
+import 'package:carrent/feature/car/domain/entities/car_entity.dart';
 import 'package:carrent/feature/home/logic/home_cubit.dart';
 import 'package:carrent/feature/home/logic/home_state.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +26,7 @@ class NormalContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // Category Header
+         
         Padding(
           padding: EdgeInsets.symmetric(
             horizontal: isSmallScreen ? 12.w : 16.w,
@@ -49,7 +50,7 @@ class NormalContent extends StatelessWidget {
           ),
         ),
 
-        // Category List
+         
         BlocBuilder<HomeCategoryCubit, HomeCategoryState>(
           builder: (context, state) {
             final selectedCategory = context
@@ -87,7 +88,7 @@ class NormalContent extends StatelessWidget {
 
         verticalSpace(20.h),
 
-        // Cars List
+         
         Expanded(
           child: BlocBuilder<HomeCategoryCubit, HomeCategoryState>(
             builder: (context, state) {
@@ -197,7 +198,7 @@ class NormalContent extends StatelessWidget {
     );
   }
 
-  Widget _buildCarsList(List<CarModel> cars) {
+  Widget _buildCarsList(List<CarEntity> cars) {
     return ListView.separated(
       padding: EdgeInsets.only(left: 16.w, right: 16.w, bottom: 20.h),
       itemCount: cars.length,

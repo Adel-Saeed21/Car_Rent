@@ -16,7 +16,7 @@ class StartScreen extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          // Background image
+           
           Positioned.fill(
             child: Image.asset(
               Assets.assetsImagesOnboardingBackground,

@@ -39,7 +39,7 @@ class HomeCustomAppBar extends StatelessWidget {
 
             horizontalSpace(8.w),
 
-            // Notification Icon
+             
             Container(
               width: isSmallScreen ? 35.w : 40.w,
               height: isSmallScreen ? 35.h : 40.h,

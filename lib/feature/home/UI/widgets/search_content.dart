@@ -2,13 +2,13 @@ import 'package:carrent/core/helpers/spacing.dart';
 import 'package:carrent/core/utils/app_colors.dart';
 import 'package:carrent/core/utils/app_text_style.dart';
 import 'package:carrent/feature/home/UI/widgets/car_info_widget.dart';
-import 'package:carrent/feature/home/data/car_model.dart';
+import 'package:carrent/feature/car/domain/entities/car_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SearchContent extends StatelessWidget {
   final bool isSearchLoading;
-  final List<CarModel> searchResults;
+  final List<CarEntity> searchResults;
   final String searchQuery;
   final double screenWidth;
   final VoidCallback onClearSearch;
@@ -36,6 +36,8 @@ class SearchContent extends StatelessWidget {
 
     return _buildSearchResults();
   }
+
+
 
   Widget _buildSearchLoadingState() {
     return Center(

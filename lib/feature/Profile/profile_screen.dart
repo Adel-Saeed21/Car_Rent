@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:carrent/core/helpers/spacing.dart';
+import 'package:carrent/core/routing/routes.dart';
 import 'package:carrent/core/theming/font_weight_helper.dart';
 import 'package:carrent/core/utils/app_colors.dart';
 import 'package:carrent/core/utils/app_text_style.dart';
@@ -36,7 +37,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       }
     } catch (e) {
       if (kDebugMode) {
-        print("Error loading user data: $e");
+        
       }
     }
   }
@@ -80,6 +81,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   icon: Icons.payment,
                   title: "Payment methods",
                   onTap: () {},
+                ),
+                _MenuItem(
+                  icon: Icons.favorite,
+                  title: "My Favorites",
+                  onTap: () => Navigator.pushNamed(context, Routes.favorite),
+                ),
+                _MenuItem(
+                  icon: Icons.reviews,
+                  title: "My Feedbacks",
+                  onTap: () => Navigator.pushNamed(context, Routes.feedback),
                 ),
                 _MenuItem(
                   icon: Icons.notifications,
@@ -127,7 +138,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 }
 
-// Profile Details Widget
+ 
 class _ProfileDetails extends StatelessWidget {
   final UserData? userData;
 
@@ -152,7 +163,7 @@ class _ProfileDetails extends StatelessWidget {
   }
 }
 
-// Profile Image Widget
+ 
 class _ProfileImage extends StatelessWidget {
   final UserData? userData;
 
@@ -175,7 +186,7 @@ class _ProfileImage extends StatelessWidget {
   }
 }
 
-// Profile Info Widget
+ 
 class _ProfileInfo extends StatelessWidget {
   const _ProfileInfo();
 
@@ -249,7 +260,7 @@ class _MenuItem {
   });
 }
 
-// Reusable Setting Item Widget
+ 
 class _SettingItem extends StatelessWidget {
   final IconData icon;
   final String title;

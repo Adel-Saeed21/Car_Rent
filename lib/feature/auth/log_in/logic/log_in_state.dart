@@ -24,7 +24,7 @@ abstract class LoginState<T> {
   });
 }
 
-// ---------------------------- Initial ----------------------------
+ 
 
 class LoginInitial<T> extends LoginState<T> {
   const LoginInitial();
@@ -70,7 +70,7 @@ class LoginInitial<T> extends LoginState<T> {
   int get hashCode => runtimeType.hashCode;
 }
 
-// ---------------------------- Loading ----------------------------
+ 
 
 class LoginLoading<T> extends LoginState<T> {
   const LoginLoading();
@@ -116,7 +116,7 @@ class LoginLoading<T> extends LoginState<T> {
   int get hashCode => runtimeType.hashCode;
 }
 
-// ---------------------------- Success ----------------------------
+ 
 
 class LoginSuccess<T> extends LoginState<T> {
   final T data;
@@ -169,7 +169,7 @@ class LoginSuccess<T> extends LoginState<T> {
   int get hashCode => data.hashCode ^ runtimeType.hashCode;
 }
 
-// ---------------------------- Error ----------------------------
+ 
 
 class LoginError<T> extends LoginState<T> {
   final String errorMessage;

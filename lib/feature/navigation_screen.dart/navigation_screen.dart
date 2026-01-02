@@ -1,6 +1,7 @@
 import 'package:carrent/core/utils/app_colors.dart';
-import 'package:carrent/feature/FeedBack/UI/feedback_screen.dart';
 import 'package:carrent/feature/Profile/profile_screen.dart';
+import 'package:carrent/feature/favorite/presentation/screens/favorite_screen.dart';
+import 'package:carrent/feature/feedback/presentation/screens/feedback_screen.dart';
 import 'package:carrent/feature/home/UI/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,16 +10,18 @@ class NavigationScreen extends StatefulWidget {
   const NavigationScreen({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
-  _NavigationScreenState createState() => _NavigationScreenState();
+   
+  NavigationScreenState createState() => NavigationScreenState();
 }
 
-class _NavigationScreenState extends State<NavigationScreen> {
+class NavigationScreenState extends State<NavigationScreen> {
   int _selectedIndex = 0;
 
   List<Widget> screens = [
     const Home(),
+    const FavoriteScreen(),
     const FeedbackScreen(),
+
     const ProfileScreen(),
   ];
 
@@ -39,7 +42,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
               borderRadius: BorderRadius.circular(25.r),
               boxShadow: [
                 BoxShadow(
-                  // ignore: deprecated_member_use
+                   
                   color: Colors.black.withOpacity(0.3),
                   blurRadius: 15,
                   offset: const Offset(0, 5),
@@ -98,25 +101,25 @@ class _NavigationScreenState extends State<NavigationScreen> {
   }
 }
 
-// class FavoritesScreen extends StatelessWidget {
-//   const FavoritesScreen({super.key});
+ 
+ 
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text('Favorites'),
-//         backgroundColor: Colors.red,
-//       ),
-//       body: const Center(
-//         child: Column(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: [
-//             Icon(Icons.favorite, size: 100, color: Colors.red),
-//             Text('Favorites Screen', style: TextStyle(fontSize: 24)),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

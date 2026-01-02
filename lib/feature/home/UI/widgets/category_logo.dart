@@ -38,7 +38,7 @@ class CategoryLogo extends StatelessWidget {
           boxShadow: isSelected
               ? [
                   BoxShadow(
-                    // ignore: deprecated_member_use
+                     
                     color: AppColors.lightBlue.withOpacity(0.3),
                     blurRadius: 8,
                     offset: const Offset(0, 4),
@@ -59,7 +59,7 @@ class CategoryLogo extends StatelessWidget {
                 boxShadow: isSelected
                     ? [
                         BoxShadow(
-                          // ignore: deprecated_member_use
+                           
                           color: Colors.black.withOpacity(0.2),
                           blurRadius: 4,
                           offset: const Offset(0, 2),
@@ -108,10 +108,10 @@ class CategoryLogo extends StatelessWidget {
 
   Color _getBackgroundColor() {
     if (isLoading) {
-      // ignore: deprecated_member_use
+       
       return AppColors.lightBlue.withOpacity(0.2);
     } else if (isSelected) {
-      // ignore: deprecated_member_use
+       
       return AppColors.lightBlue.withOpacity(0.2);
     }
     return AppColors.darkGrey;

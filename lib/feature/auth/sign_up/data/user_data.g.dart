@@ -1,10 +1,10 @@
-// GENERATED CODE - DO NOT MODIFY BY HAND
+ 
 
 part of 'user_data.dart';
 
-// **************************************************************************
-// TypeAdapterGenerator
-// **************************************************************************
+ 
+ 
+ 
 
 class UserDataAdapter extends TypeAdapter<UserData> {
   @override
@@ -55,9 +55,9 @@ class UserDataAdapter extends TypeAdapter<UserData> {
           typeId == other.typeId;
 }
 
-// **************************************************************************
-// JsonSerializableGenerator
-// **************************************************************************
+ 
+ 
+ 
 
 UserData _$UserDataFromJson(Map<String, dynamic> json) => UserData(
       uid: json['uid'] as String?,

@@ -5,3 +5,8 @@ bool isUserLoggedIn() {
   final box = Hive.box<UserData>('userDataBox');
   return box.get('currentUser') != null;
 }
+
+String? getUserEmail() {
+  final box = Hive.box<UserData>('userDataBox');
+  return box.get('currentUser')?.email;
+}

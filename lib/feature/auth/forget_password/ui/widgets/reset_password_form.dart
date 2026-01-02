@@ -61,8 +61,9 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
             listener: (context, state) {
               if (state is ResetPasswordSuccess) {
                 showToast('If this email exists, we\'ve sent a password reset link');
-                // Navigate back to login after showing success message
+                 
                 Future.delayed(const Duration(seconds: 3), () {
+                  // ignore: use_build_context_synchronously
                   context.pushReplacmentNamed(Routes.logInScreen);
                 });
               } else if (state is ResetPasswordError) {
@@ -82,7 +83,7 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
                                 .currentState
                                 ?.validate() ??
                             false) {
-                          // Call the send password reset email method
+                           
                           context
                               .read<ResetPasswordCubit>()
                               .sendPasswordResetEmail();

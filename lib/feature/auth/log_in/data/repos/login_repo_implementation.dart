@@ -29,9 +29,9 @@ class LoginRepoImplementation extends ILoginRepo {
     UserData? currentUser = box.get('currentUser');
 
     if (currentUser != null) {
-      print("✅ User loaded from Hive: ${currentUser.email}");
+      
     } else {
-      print("⚠️ No local user data found, saving minimal data from FirebaseAuth.");
+      
 
       final newUser = UserData(
         uid: user.uid,

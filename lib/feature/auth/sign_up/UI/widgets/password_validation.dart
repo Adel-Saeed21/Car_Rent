@@ -47,7 +47,7 @@ class PasswordValidation extends StatelessWidget {
           text,
           style: TextStyle(
             fontSize: 13.sp,
-            // backgroundColor: AppColors.lightBlue,
+             
             fontWeight: FontWeightHelper.regular,
 
             decoration: hasValidated ? TextDecoration.lineThrough : null,

@@ -25,8 +25,8 @@ class LogInScreen extends StatelessWidget {
               children: [
                 verticalSpace(20.h),
 
-                // // Logo
-                // CarvOnLogo(color: AppColors.lightBlue),
+                 
+                 
                 verticalSpace(30.h),
 
                 Align(
@@ -55,19 +55,19 @@ class LogInScreen extends StatelessWidget {
 
                 verticalSpace(10.h),
 
-                // Login Form
+                 
                 const LogInForm(),
 
                 verticalSpace(25.h),
 
                 
 
-                // Social Login Buttons
+                 
                 const SocialLoginButtons(),
 
                 verticalSpace(30.h),
 
-                // Sign up link
+                 
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

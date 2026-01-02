@@ -1,4 +1,4 @@
-import 'package:carrent/feature/home/data/car_model.dart';
+import 'package:carrent/feature/car/domain/entities/car_entity.dart';
 
 abstract class HomeCategoryState {
   const HomeCategoryState();
@@ -39,7 +39,7 @@ class HomeCategoryError extends HomeCategoryState {
 }
 
 class FavoriteToggled extends HomeCategoryState {
-  final CarModel car;
+  final CarEntity car;
 
   FavoriteToggled(this.car);
 }

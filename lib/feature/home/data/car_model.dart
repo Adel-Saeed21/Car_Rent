@@ -1,67 +1,12 @@
+import 'package:carrent/feature/car/data/models/car_model.dart';
+import 'package:carrent/feature/car/domain/entities/car_entity.dart';
 import 'package:carrent/core/utils/app_assets.dart';
-import 'package:carrent/feature/car_Details/widgets/specification_car_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-class CarModel {
-  final String id;
-  final String name;
-  final String brand;
-  final String imageAsset;
-  final int maxSpeed;
-  final int seats;
-  final double pricePerDay;
-  List<String> bookingIds;
-  final List<String> features;
-  final List<SpecificationData>? carDataSpecification;
-  bool isFavorite;
 
-  CarModel({
-    required this.id,
-    required this.name,
-    required this.brand,
-    required this.imageAsset,
-    required this.maxSpeed,
-    required this.seats,
-    required this.pricePerDay,
-    required this.features,
-    this.isFavorite = false,
-    this.carDataSpecification,
-    this.bookingIds = const [],
-  });
 
-  void toggleFavorite() {
-    isFavorite = !isFavorite;
-  }
-
-  CarModel copyWith({
-    String? id,
-    String? name,
-    String? brand,
-    String? imageAsset,
-    int? maxSpeed,
-    int? seats,
-    double? pricePerDay,
-    List<String>? features,
-    bool? isFavorite,
-    List<String>? bookingIds,
-  }) {
-    return CarModel(
-      id: id ?? this.id,
-      name: name ?? this.name,
-      brand: brand ?? this.brand,
-      imageAsset: imageAsset ?? this.imageAsset,
-      maxSpeed: maxSpeed ?? this.maxSpeed,
-      seats: seats ?? this.seats,
-      pricePerDay: pricePerDay ?? this.pricePerDay,
-      features: features ?? this.features,
-      isFavorite: isFavorite ?? this.isFavorite,
-      bookingIds: bookingIds ?? this.bookingIds,
-    );
-  }
-}
-
-// Cars Data organized by brand
+ 
 final Map<String, List<CarModel>> carsData = {
   "Mercedes": [
     CarModel(
@@ -74,25 +19,25 @@ final Map<String, List<CarModel>> carsData = {
       pricePerDay: 250,
       features: ["Leather Seats", "Sport Mode", "Navigation", "Bluetooth"],
       carDataSpecification: [
-        SpecificationData(
+        SpecificationDataModel(
           icon: MdiIcons.speedometer,
           iconColor: Colors.cyan,
           title: "Top Speed",
           value: "310 km/h",
         ),
-        SpecificationData(
+        SpecificationDataModel(
           icon: MdiIcons.battery,
           iconColor: Colors.green,
           title: "Range",
           value: "520 km",
         ),
-        SpecificationData(
+        SpecificationDataModel(
           icon: MdiIcons.rocketLaunch,
           iconColor: Colors.orange,
           title: "0-100 km/h",
           value: "2.2 sec",
         ),
-        SpecificationData(
+        SpecificationDataModel(
           icon: MdiIcons.seatReclineNormal,
           iconColor: Colors.blue,
           title: "Seats",
@@ -110,25 +55,25 @@ final Map<String, List<CarModel>> carsData = {
       pricePerDay: 200,
       features: ["Luxury Interior", "Massage Seats", "Panoramic Roof"],
       carDataSpecification: [
-        SpecificationData(
+        SpecificationDataModel(
           icon: MdiIcons.speedometer,
           iconColor: Colors.cyan,
           title: "Top Speed",
           value: "250 km/h",
         ),
-        SpecificationData(
+        SpecificationDataModel(
           icon: MdiIcons.battery,
           iconColor: Colors.green,
           title: "Range",
           value: "520 km",
         ),
-        SpecificationData(
+        SpecificationDataModel(
           icon: MdiIcons.rocketLaunch,
           iconColor: Colors.orange,
           title: "0-200 km/h",
           value: "3.2 sec",
         ),
-        SpecificationData(
+        SpecificationDataModel(
           icon: MdiIcons.seatReclineNormal,
           iconColor: Colors.blue,
           title: "Seats",
@@ -146,25 +91,25 @@ final Map<String, List<CarModel>> carsData = {
       pricePerDay: 150,
       features: ["Sport Package", "LED Lights", "Apple CarPlay"],
       carDataSpecification: [
-        SpecificationData(
+        SpecificationDataModel(
           icon: MdiIcons.speedometer,
           iconColor: Colors.cyan,
           title: "Top Speed",
           value: "240 km/h",
         ),
-        SpecificationData(
+        SpecificationDataModel(
           icon: MdiIcons.battery,
           iconColor: Colors.green,
           title: "Range",
           value: "520 km",
         ),
-        SpecificationData(
+        SpecificationDataModel(
           icon: MdiIcons.rocketLaunch,
           iconColor: Colors.orange,
           title: "0-100 km/h",
           value: "3.5 sec",
         ),
-        SpecificationData(
+        SpecificationDataModel(
           icon: MdiIcons.seatReclineNormal,
           iconColor: Colors.blue,
           title: "Seats",
@@ -185,25 +130,25 @@ final Map<String, List<CarModel>> carsData = {
       pricePerDay: 280,
       features: ["M Performance", "Carbon Fiber", "Head-Up Display"],
       carDataSpecification: [
-        SpecificationData(
+        SpecificationDataModel(
           icon: MdiIcons.speedometer,
           iconColor: Colors.cyan,
           title: "Top Speed",
           value: "305 km/h",
         ),
-        SpecificationData(
+        SpecificationDataModel(
           icon: MdiIcons.battery,
           iconColor: Colors.green,
           title: "Range",
           value: "520 km",
         ),
-        SpecificationData(
+        SpecificationDataModel(
           icon: MdiIcons.rocketLaunch,
           iconColor: Colors.orange,
           title: "0-100 km/h",
           value: "2.2 sec",
         ),
-        SpecificationData(
+        SpecificationDataModel(
           icon: MdiIcons.seatReclineNormal,
           iconColor: Colors.blue,
           title: "Seats",
@@ -221,25 +166,25 @@ final Map<String, List<CarModel>> carsData = {
       pricePerDay: 220,
       features: ["All-Wheel Drive", "Sport Seats", "Premium Sound"],
       carDataSpecification: [
-        SpecificationData(
+        SpecificationDataModel(
           icon: MdiIcons.speedometer,
           iconColor: Colors.cyan,
           title: "Top Speed",
           value: "250 km/h",
         ),
-        SpecificationData(
+        SpecificationDataModel(
           icon: MdiIcons.battery,
           iconColor: Colors.green,
           title: "Range",
           value: "520 km",
         ),
-        SpecificationData(
+        SpecificationDataModel(
           icon: MdiIcons.rocketLaunch,
           iconColor: Colors.orange,
           title: "0-100 km/h",
           value: "1.8 sec",
         ),
-        SpecificationData(
+        SpecificationDataModel(
           icon: MdiIcons.seatReclineNormal,
           iconColor: Colors.blue,
           title: "Seats",
@@ -258,25 +203,25 @@ final Map<String, List<CarModel>> carsData = {
       features: ["Hybrid Engine", "Butterfly Doors", "Carbon Body"],
 
       carDataSpecification: [
-        SpecificationData(
+        SpecificationDataModel(
           icon: MdiIcons.speedometer,
           iconColor: Colors.cyan,
           title: "Top Speed",
           value: "250 km/h",
         ),
-        SpecificationData(
+        SpecificationDataModel(
           icon: MdiIcons.battery,
           iconColor: Colors.green,
           title: "Range",
           value: "520 km",
         ),
-        SpecificationData(
+        SpecificationDataModel(
           icon: MdiIcons.rocketLaunch,
           iconColor: Colors.orange,
           title: "0-100 km/h",
           value: "1.2 sec",
         ),
-        SpecificationData(
+        SpecificationDataModel(
           icon: MdiIcons.seatReclineNormal,
           iconColor: Colors.blue,
           title: "Seats",
@@ -298,25 +243,25 @@ final Map<String, List<CarModel>> carsData = {
       features: ["V10 Engine", "Quattro AWD", "Virtual Cockpit"],
 
       carDataSpecification: [
-        SpecificationData(
+        SpecificationDataModel(
           icon: MdiIcons.speedometer,
           iconColor: Colors.cyan,
           title: "Top Speed",
           value: "330 km/h",
         ),
-        SpecificationData(
+        SpecificationDataModel(
           icon: MdiIcons.battery,
           iconColor: Colors.green,
           title: "Range",
           value: "520 km",
         ),
-        SpecificationData(
+        SpecificationDataModel(
           icon: MdiIcons.rocketLaunch,
           iconColor: Colors.orange,
           title: "0-100 km/h",
           value: "2.2 sec",
         ),
-        SpecificationData(
+        SpecificationDataModel(
           icon: MdiIcons.seatReclineNormal,
           iconColor: Colors.blue,
           title: "Seats",
@@ -335,25 +280,25 @@ final Map<String, List<CarModel>> carsData = {
       features: ["3rd Row Seats", "Matrix LED", "Bang & Olufsen"],
 
       carDataSpecification: [
-        SpecificationData(
+        SpecificationDataModel(
           icon: MdiIcons.speedometer,
           iconColor: Colors.cyan,
           title: "Top Speed",
           value: "240 km/h",
         ),
-        SpecificationData(
+        SpecificationDataModel(
           icon: MdiIcons.battery,
           iconColor: Colors.green,
           title: "Range",
           value: "520 km",
         ),
-        SpecificationData(
+        SpecificationDataModel(
           icon: MdiIcons.rocketLaunch,
           iconColor: Colors.orange,
           title: "0-100 km/h",
           value: "3.2 sec",
         ),
-        SpecificationData(
+        SpecificationDataModel(
           icon: MdiIcons.seatReclineNormal,
           iconColor: Colors.blue,
           title: "Seats",
@@ -372,25 +317,25 @@ final Map<String, List<CarModel>> carsData = {
       features: ["Executive Package", "Massage Function", "Night Vision"],
 
       carDataSpecification: [
-        SpecificationData(
+        SpecificationDataModel(
           icon: MdiIcons.speedometer,
           iconColor: Colors.cyan,
           title: "Top Speed",
           value: "250 km/h",
         ),
-        SpecificationData(
+        SpecificationDataModel(
           icon: MdiIcons.battery,
           iconColor: Colors.green,
           title: "Range",
           value: "520 km",
         ),
-        SpecificationData(
+        SpecificationDataModel(
           icon: MdiIcons.rocketLaunch,
           iconColor: Colors.orange,
           title: "0-100 km/h",
           value: "3.2 sec",
         ),
-        SpecificationData(
+        SpecificationDataModel(
           icon: MdiIcons.seatReclineNormal,
           iconColor: Colors.blue,
           title: "Seats",
@@ -412,25 +357,25 @@ final Map<String, List<CarModel>> carsData = {
       features: ["W12 Engine", "Diamond Quilting", "Rotating Display"],
 
       carDataSpecification: [
-        SpecificationData(
+        SpecificationDataModel(
           icon: MdiIcons.speedometer,
           iconColor: Colors.cyan,
           title: "Top Speed",
           value: "333 km/h",
         ),
-        SpecificationData(
+        SpecificationDataModel(
           icon: MdiIcons.battery,
           iconColor: Colors.green,
           title: "Range",
           value: "520 km",
         ),
-        SpecificationData(
+        SpecificationDataModel(
           icon: MdiIcons.rocketLaunch,
           iconColor: Colors.orange,
           title: "0-100 km/h",
           value: "1.2 sec",
         ),
-        SpecificationData(
+        SpecificationDataModel(
           icon: MdiIcons.seatReclineNormal,
           iconColor: Colors.blue,
           title: "Seats",
@@ -448,25 +393,25 @@ final Map<String, List<CarModel>> carsData = {
       pricePerDay: 400,
       features: ["Handcrafted Interior", "Mulliner Spec", "Privacy Glass"],
       carDataSpecification: [
-        SpecificationData(
+        SpecificationDataModel(
           icon: MdiIcons.speedometer,
           iconColor: Colors.cyan,
           title: "Top Speed",
           value: "296 km/h",
         ),
-        SpecificationData(
+        SpecificationDataModel(
           icon: MdiIcons.battery,
           iconColor: Colors.green,
           title: "Range",
           value: "520 km",
         ),
-        SpecificationData(
+        SpecificationDataModel(
           icon: MdiIcons.rocketLaunch,
           iconColor: Colors.orange,
           title: "0-100 km/h",
           value: "2.2 sec",
         ),
-        SpecificationData(
+        SpecificationDataModel(
           icon: MdiIcons.seatReclineNormal,
           iconColor: Colors.blue,
           title: "Seats",
@@ -487,25 +432,25 @@ final Map<String, List<CarModel>> carsData = {
       pricePerDay: 500,
       features: ["V10 Engine", "Carbon Fiber", "Track Mode"],
       carDataSpecification: [
-        SpecificationData(
+        SpecificationDataModel(
           icon: MdiIcons.speedometer,
           iconColor: Colors.cyan,
           title: "Top Speed",
           value: "325 km/h",
         ),
-        SpecificationData(
+        SpecificationDataModel(
           icon: MdiIcons.battery,
           iconColor: Colors.green,
           title: "Range",
           value: "520 km",
         ),
-        SpecificationData(
+        SpecificationDataModel(
           icon: MdiIcons.rocketLaunch,
           iconColor: Colors.orange,
           title: "0-100 km/h",
           value: "1.2 sec",
         ),
-        SpecificationData(
+        SpecificationDataModel(
           icon: MdiIcons.seatReclineNormal,
           iconColor: Colors.blue,
           title: "Seats",
@@ -524,25 +469,25 @@ final Map<String, List<CarModel>> carsData = {
       features: ["Scissor Doors", "V12 Engine", "Launch Control"],
 
       carDataSpecification: [
-        SpecificationData(
+        SpecificationDataModel(
           icon: MdiIcons.speedometer,
           iconColor: Colors.cyan,
           title: "Top Speed",
           value: "350 km/h",
         ),
-        SpecificationData(
+        SpecificationDataModel(
           icon: MdiIcons.battery,
           iconColor: Colors.green,
           title: "Range",
           value: "520 km",
         ),
-        SpecificationData(
+        SpecificationDataModel(
           icon: MdiIcons.rocketLaunch,
           iconColor: Colors.orange,
           title: "0-100 km/h",
           value: "3.2 sec",
         ),
-        SpecificationData(
+        SpecificationDataModel(
           icon: MdiIcons.seatReclineNormal,
           iconColor: Colors.blue,
           title: "Seats",
@@ -564,25 +509,25 @@ final Map<String, List<CarModel>> carsData = {
       features: ["Twin Turbo V8", "F1 Technology", "Side Slip Control"],
 
       carDataSpecification: [
-        SpecificationData(
+        SpecificationDataModel(
           icon: MdiIcons.speedometer,
           iconColor: Colors.cyan,
           title: "Top Speed",
           value: "330 km/h",
         ),
-        SpecificationData(
+        SpecificationDataModel(
           icon: MdiIcons.battery,
           iconColor: Colors.green,
           title: "Range",
           value: "520 km",
         ),
-        SpecificationData(
+        SpecificationDataModel(
           icon: MdiIcons.rocketLaunch,
           iconColor: Colors.orange,
           title: "0-100 km/h",
           value: "1.2 sec",
         ),
-        SpecificationData(
+        SpecificationDataModel(
           icon: MdiIcons.seatReclineNormal,
           iconColor: Colors.blue,
           title: "Seats",
@@ -601,25 +546,25 @@ final Map<String, List<CarModel>> carsData = {
       features: ["720 HP", "Aerodynamic Body", "Racing Suspension"],
 
       carDataSpecification: [
-        SpecificationData(
+        SpecificationDataModel(
           icon: MdiIcons.speedometer,
           iconColor: Colors.cyan,
           title: "Top Speed",
           value: "340 km/h",
         ),
-        SpecificationData(
+        SpecificationDataModel(
           icon: MdiIcons.battery,
           iconColor: Colors.green,
           title: "Range",
           value: "520 km",
         ),
-        SpecificationData(
+        SpecificationDataModel(
           icon: MdiIcons.rocketLaunch,
           iconColor: Colors.orange,
           title: "0-100 km/h",
           value: "1.2 sec",
         ),
-        SpecificationData(
+        SpecificationDataModel(
           icon: MdiIcons.seatReclineNormal,
           iconColor: Colors.blue,
           title: "Seats",
@@ -630,14 +575,24 @@ final Map<String, List<CarModel>> carsData = {
   ],
 };
 
-List<CarModel> getCarsByBrand(String brand) {
-  return carsData[brand] ?? [];
+List<CarEntity> getCarsByBrand(String brand) {
+  final cars = carsData[brand] ?? [];
+  return cars.map((e) => e.toEntity()).toList();
 }
 
-List<CarModel> getAllCars() {
-  return carsData.values.expand((cars) => cars).toList();
+List<CarEntity> getAllCars() {
+  final allCars = carsData.values.expand((cars) => cars).toList();
+  return allCars.map((e) => e.toEntity()).toList();
 }
 
-List<CarModel> getFavoriteCars() {
-  return getAllCars().where((car) => car.isFavorite).toList();
+List<CarEntity> getFavoriteCars() {
+   
+   
+   
+   
+   
+   
+   
+   
+  return [];
 }

@@ -4,9 +4,12 @@ import 'package:carrent/core/routing/routes.dart';
 import 'package:carrent/core/utils/app_colors.dart';
 import 'package:carrent/core/utils/app_text_style.dart';
 import 'package:carrent/feature/home/UI/widgets/car_category_feature.dart';
-import 'package:carrent/feature/home/data/car_model.dart';
 import 'package:carrent/feature/home/logic/home_cubit.dart';
 import 'package:carrent/feature/home/logic/home_state.dart';
+import 'package:carrent/feature/car/domain/entities/car_entity.dart';
+import 'package:carrent/feature/favorite/presentation/cubit/favorite_cubit.dart';
+import 'package:carrent/feature/favorite/presentation/cubit/favorite_state.dart';
+import 'package:carrent/core/functions/is_user_login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -19,7 +22,7 @@ class CarInfoWidget extends StatelessWidget {
     required this.screenWidth,
   });
 
-  final CarModel car;
+  final CarEntity car;
   final double screenWidth;
 
   @override
@@ -45,7 +48,7 @@ class CarInfoWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(20.r),
               boxShadow: [
                 BoxShadow(
-                  // ignore: deprecated_member_use
+                   
                   color: Colors.black.withOpacity(0.1),
                   blurRadius: 10,
                   offset: const Offset(0, 4),
@@ -80,67 +83,53 @@ class CarInfoWidget extends StatelessWidget {
                       ),
                     ),
 
-                    Container(
-                      width: 40.w,
-                      height: 40.w,
-                      decoration: BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: BorderRadius.circular(30.r),
-                      ),
-                      child: IconButton(
-                        onPressed: () {
-                          final wasFavorite = currentCar.isFavorite;
-                          try {
-                            context.read<HomeCategoryCubit>().toggleCarFavorite(
-                              currentCar.id,
-                            );
-                          } catch (e) {
-                            print(e);
-                          }
+                    BlocBuilder<FavoriteCubit, FavoriteState>(
+                      builder: (context, favState) {
+                        bool isFavorite = false;
+                        if (favState is FavoriteLoaded) {
+                          isFavorite = favState.favoriteCars
+                              .any((c) => c.id == currentCar.id);
+                        }
+                         
+                         
 
-                          ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                !wasFavorite
-                                    ? '${currentCar.name} added to favorites!'
-                                    : '${currentCar.name} removed from favorites!',
-                              ),
-                              duration: const Duration(milliseconds: 1000),
-                              backgroundColor: !wasFavorite
-                                  ? AppColors.lightBlue
-                                  : Colors.red,
-                              behavior: SnackBarBehavior.floating,
-                              margin: EdgeInsets.only(
-                                bottom:
-                                    MediaQuery.of(context).size.height * 0.008,
-                                left: 20,
-                                right: 20,
+                        return Container(
+                          width: 40.w,
+                          height: 40.w,
+                          decoration: BoxDecoration(
+                            color: Colors.black,
+                            borderRadius: BorderRadius.circular(30.r),
+                          ),
+                          child: IconButton(
+                            onPressed: () {
+                              final userId = getUserEmail() ?? 'default_user';
+                              context
+                                  .read<FavoriteCubit>()
+                                  .toggleFavorite(userId, currentCar.id);
+                            },
+                            icon: AnimatedSwitcher(
+                              duration: const Duration(milliseconds: 300),
+                              child: Icon(
+                                isFavorite
+                                    ? Icons.favorite
+                                    : Icons.favorite_border_outlined,
+                                key: ValueKey(isFavorite),
+                                color: isFavorite
+                                    ? AppColors.lightBlue
+                                    : AppColors.offWhite,
+                                size: 24,
                               ),
                             ),
-                          );
-                        },
-                        icon: AnimatedSwitcher(
-                          duration: const Duration(milliseconds: 300),
-                          child: Icon(
-                            currentCar.isFavorite
-                                ? Icons.favorite
-                                : Icons.favorite_border_outlined,
-                            key: ValueKey(currentCar.isFavorite),
-                            color: currentCar.isFavorite
-                                ? AppColors.lightBlue
-                                : AppColors.offWhite,
-                            size: 24,
                           ),
-                        ),
-                      ),
+                        );
+                      },
                     ),
                   ],
                 ),
 
                 verticalSpace(10.h),
 
-                // Car Image
+                 
                 Expanded(
                   child: Stack(
                     children: [
@@ -160,7 +149,7 @@ class CarInfoWidget extends StatelessWidget {
 
                 verticalSpace(10.h),
 
-                // Car Features
+                 
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
